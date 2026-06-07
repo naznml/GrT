@@ -1865,6 +1865,7 @@ function answerText(q,arr){
 }
 
 function checkUnit(unitKey){
+  
   const unit = DATA[unitKey];
   const resultBox = document.getElementById("result-" + unitKey);
 
@@ -1927,7 +1928,7 @@ function checkUnit(unitKey){
     block:"start"
   });
 }
-
+Object.keys(DATA).forEach(renderUnit);
 /* Basic copyright protection */
 document.addEventListener("contextmenu", function(e){
   e.preventDefault();
