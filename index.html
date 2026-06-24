@@ -311,10 +311,52 @@ body.protected{
     font-size:14px;
   }
 }
+
+/* KZ/RU DISPLAY SWITCH — ORIGINAL CONTENT PRESERVED */
+.lang-switch{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:100;
+  display:flex;
+  gap:8px;
+  background:rgba(255,255,255,.96);
+  border:1px solid #ddd6fe;
+  border-radius:999px;
+  padding:8px;
+  box-shadow:0 12px 30px rgba(15,23,42,.18);
+}
+.lang-switch button{
+  border:0;
+  border-radius:999px;
+  padding:9px 14px;
+  font-weight:900;
+  cursor:pointer;
+  background:#ede9fe;
+  color:#4c1d95;
+}
+.lang-switch button.active{
+  background:linear-gradient(135deg,#7c3aed,#0f766e);
+  color:white;
+}
+body.lang-kz .ru-only{display:none!important;}
+body.lang-ru .kz-only{display:none!important;}
+body.lang-kz .notice-ru{display:none!important;}
+body.lang-ru .notice-kz{display:none!important;}
+body.lang-kz .footer-ru{display:none!important;}
+body.lang-ru .footer-kz{display:none!important;}
+
 </style>
+<!-- M019 GRAMMAR TEXTBOOK EXPANDED FINAL: Units 1–5 grammar exercises expanded from textbook; KZ/RU display split; no meta/book/author questions. -->
 </head>
 
-<body class="protected">
+<body class="lang-kz protected">
+
+<div class="lang-switch" aria-label="Language switcher">
+  <button type="button" id="btnKz" class="active" onclick="setLang('kz')">ҚАЗ</button>
+  <button type="button" id="btnRu" onclick="setLang('ru')">РУС</button>
+</div>
+
 
 <section class="hero">
   <h1>M019 Grammar Practice</h1>
@@ -351,11 +393,11 @@ body.protected{
         Grammar focus: gender-neutral language, inclusive pronouns, gender-neutral job titles, avoiding pseudo-generic “he / man”.
       </p>
     </div>
-    <span class="badge">10 questions</span>
+    <span class="badge">32 questions</span>
   </div>
 
   <div id="quiz-unit1"></div>
-  <button class="btn" onclick="checkUnit('unit1')">Show result / Показать результат</button>
+  <button class="btn" onclick="checkUnit('unit1')"><span class="kz-only">Нәтижені көрсету</span><span class="ru-only">Показать результат</span></button>
   <div id="result-unit1" class="result"></div>
 </section>
 
@@ -367,11 +409,11 @@ body.protected{
         Grammar focus: second conditional, third conditional, wish-structures, subjunctive and unreal past.
       </p>
     </div>
-    <span class="badge">26 questions</span>
+    <span class="badge">50 questions</span>
   </div>
 
   <div id="quiz-unit2"></div>
-  <button class="btn" onclick="checkUnit('unit2')">Show result / Показать результат</button>
+  <button class="btn" onclick="checkUnit('unit2')"><span class="kz-only">Нәтижені көрсету</span><span class="ru-only">Показать результат</span></button>
   <div id="result-unit2" class="result"></div>
 </section>
 
@@ -383,11 +425,11 @@ body.protected{
         Grammar focus: gerund after prepositions, infinitive after verbs, bare infinitive, remember / try / mean patterns.
       </p>
     </div>
-    <span class="badge">20 questions</span>
+    <span class="badge">45 questions</span>
   </div>
 
   <div id="quiz-unit3"></div>
-  <button class="btn" onclick="checkUnit('unit3')">Show result / Показать результат</button>
+  <button class="btn" onclick="checkUnit('unit3')"><span class="kz-only">Нәтижені көрсету</span><span class="ru-only">Показать результат</span></button>
   <div id="result-unit3" class="result"></div>
 </section>
 
@@ -399,11 +441,11 @@ body.protected{
         Grammar focus: phrase types, subordinate clauses, semantic clause types, clauses of purpose.
       </p>
     </div>
-    <span class="badge">18 questions</span>
+    <span class="badge">40 questions</span>
   </div>
 
   <div id="quiz-unit4"></div>
-  <button class="btn" onclick="checkUnit('unit4')">Show result / Показать результат</button>
+  <button class="btn" onclick="checkUnit('unit4')"><span class="kz-only">Нәтижені көрсету</span><span class="ru-only">Показать результат</span></button>
   <div id="result-unit4" class="result"></div>
 </section>
 
@@ -415,18 +457,18 @@ body.protected{
         Grammar focus: passive forms, active-passive transformation, sequence of tenses, reported speech, reporting verbs.
       </p>
     </div>
-    <span class="badge">20 questions</span>
+    <span class="badge">52 questions</span>
   </div>
 
   <div id="quiz-unit5"></div>
-  <button class="btn" onclick="checkUnit('unit5')">Show result / Показать результат</button>
+  <button class="btn" onclick="checkUnit('unit5')"><span class="kz-only">Нәтижені көрсету</span><span class="ru-only">Показать результат</span></button>
   <div id="result-unit5" class="result"></div>
 </section>
 
 <div class="footer">
   <div><b>© @elnazm_ln</b></div>
-  <div>Барлық құқықтар қорғалған. Материалдарды көшіруге, қайта сатуға және таратуға тыйым салынады.</div>
-  <div style="font-size:12px; margin-top:4px;">
+  <div class="footer-kz">Барлық құқықтар қорғалған. Материалдарды көшіруге, қайта сатуға және таратуға тыйым салынады.</div>
+  <div class="footer-ru" style="font-size:12px; margin-top:4px;">
     Все права защищены. Копирование, перепродажа и распространение материалов запрещены.
   </div>
 </div>
@@ -434,1350 +476,33 @@ body.protected{
 </main>
 
 <script>
-const DATA = {
 
-unit1:{
-title:"Unit 1 Grammar — Gender Bias in English",
-questions:[
-{
-type:"single",
-q:"1. Choose the gender-inclusive version of the sentence: “The average student is worried about his grades.”",
-options:[
-"The average student is worried about his grades.",
-"The average student is worried about her grades.",
-"Students are worried about their grades.",
-"The student is worried about mankind."
-],
-answers:[2],
-ru:"Правильный ответ — “Students are worried about their grades.” В современном английском языке лучше избегать псевдо-общего “his”, потому что оно делает мужской род нормой. Форма “students / their” делает предложение гендерно нейтральным.",
-kz:"Дұрыс жауап — “Students are worried about their grades.” Қазіргі ағылшын тілінде жалпы мағынада “his” қолданудан қашқан дұрыс, себебі ол ер адамды негізгі норма ретінде көрсетеді. “Students / their” формасы сөйлемді гендерлік бейтарап етеді.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"2. Choose the best gender-neutral replacement for “mankind”.",
-options:[
-"man",
-"mankind",
-"humanity",
-"male society"
-],
-answers:[2],
-ru:"Правильный ответ — “humanity”. Слово “mankind” содержит компонент “man”, поэтому в gender-neutral English лучше использовать “humanity” или “humankind”.",
-kz:"Дұрыс жауап — “humanity”. “Mankind” сөзінің құрамында “man” бар, сондықтан гендерлік бейтарап ағылшын тілінде “humanity” немесе “humankind” қолданған дұрыс.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"3. Choose the gender-neutral replacement for “man-made”.",
-options:[
-"artificial",
-"male-made",
-"mankind-made",
-"made by men only"
-],
-answers:[0],
-ru:"Правильный ответ — “artificial”. “Man-made” можно заменить на “artificial”, потому что оно означает “созданный человеком” без гендерной маркировки.",
-kz:"Дұрыс жауап — “artificial”. “Man-made” сөзін “artificial” сөзімен ауыстыруға болады, себебі ол “адам жасаған” деген мағынаны береді және гендерлік белгісі жоқ.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"4. Choose the gender-neutral replacement for “manpower”.",
-options:[
-"men",
-"workers",
-"male force",
-"mankind"
-],
-answers:[1],
-ru:"Правильный ответ — “workers”. “Manpower” лучше заменить на “workers”, “staff” или “workforce”, потому что эти слова не указывают на пол.",
-kz:"Дұрыс жауап — “workers”. “Manpower” сөзін “workers”, “staff” немесе “workforce” сөздерімен ауыстырған дұрыс, себебі олар адамның жынысын көрсетпейді.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"5. Choose the gender-neutral job title.",
-options:[
-"fireman",
-"policeman",
-"firefighter",
-"chairman"
-],
-answers:[2],
-ru:"Правильный ответ — “firefighter”. “Fireman” содержит “man” и звучит как профессия только для мужчин, а “firefighter” подходит для любого человека.",
-kz:"Дұрыс жауап — “firefighter”. “Fireman” сөзінде “man” бар және ол мамандық тек ер адамдарға қатысты сияқты естіледі. “Firefighter” кез келген адамға қатысты қолданылады.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"6. Choose the gender-neutral replacement for “chairman”.",
-options:[
-"chairperson",
-"man-chair",
-"headman",
-"male leader"
-],
-answers:[0],
-ru:"Правильный ответ — “chairperson”. Это нейтральная форма, которая подходит независимо от пола человека.",
-kz:"Дұрыс жауап — “chairperson”. Бұл адамның жынысына қарамай қолданылатын бейтарап атау.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"7. Choose the gender-neutral replacement for “waiter/waitress”.",
-options:[
-"servant",
-"server",
-"waitressman",
-"restaurant girl"
-],
-answers:[1],
-ru:"Правильный ответ — “server”. “Waiter” и “waitress” маркируют пол, а “server” является нейтральным названием профессии.",
-kz:"Дұрыс жауап — “server”. “Waiter” және “waitress” адамның жынысын көрсетеді, ал “server” — гендерлік бейтарап кәсіби атау.",
-source:"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"
-},
-{
-type:"single",
-q:"8. Choose the correct pronouns: “The senior class, ___ had a meeting, decided ___ would hold a dance.”",
-options:[
-"who / they",
-"which / it",
-"he / his",
-"she / her"
-],
-answers:[1],
-ru:"Правильный ответ — “which / it”. “Class” здесь рассматривается как одна коллективная единица, поэтому можно использовать “which” и “it”.",
-kz:"Дұрыс жауап — “which / it”. Бұл сөйлемде “class” бір ұжымдық бірлік ретінде қарастырылады, сондықтан “which” және “it” қолданылады.",
-source:"Textbook-based / POFLIC Unit 1.1 — Pronoun Reference"
-},
-{
-type:"single",
-q:"9. Choose the correct pronouns: “This infant, ___ is an orphan, acts as though ___ is hungry.”",
-options:[
-"who / he or she",
-"which / it",
-"who / they only",
-"that / them"
-],
-answers:[0],
-ru:"Правильный ответ — “who / he or she”. Для ребёнка как человека используется “who”. Если пол неизвестен, можно использовать “he or she” или в современном английском “they”.",
-kz:"Дұрыс жауап — “who / he or she”. Бала адам болғандықтан “who” қолданылады. Егер жынысы белгісіз болса, “he or she” немесе қазіргі ағылшын тілінде “they” қолдануға болады.",
-source:"Textbook-based / POFLIC Unit 1.1 — Pronoun Reference"
-},
-{
-type:"single",
-q:"10. Choose the gender-inclusive sentence.",
-options:[
-"Every teacher should know his duty.",
-"Every teacher should know her duty.",
-"Teachers should know their duties.",
-"Every teacher should know mankind."
-],
-answers:[2],
-ru:"Правильный ответ — “Teachers should know their duties.” Множественная форма “teachers / their” помогает избежать gender bias и делает предложение нейтральным.",
-kz:"Дұрыс жауап — “Teachers should know their duties.” Көпше түрдегі “teachers / their” гендерлік біржақтылықтан сақтайды және сөйлемді бейтарап етеді.",
-source:"Topic-based extra / POFLIC Unit 1.1 — Gender-neutral Language"
+/* KZ/RU DISPLAY SWITCH — DATA NOT CHANGED */
+function currentSiteLang(){
+  return document.body.classList.contains('lang-ru') ? 'ru' : 'kz';
 }
-]
-},
-unit2:{
-title:"Unit 2 Grammar — Conditionals, Wish, Subjunctive, Unreal Past",
-questions:[
-{
-type:"single",
-q:"1. If I ___ enough money, I would go on safari to Kenya.",
-options:[
-"have",
-"had",
-"had had",
-"will have"
-],
-answers:[1],
-ru:"Правильный ответ — “had”. Это Second Conditional: If + Past Simple, would + infinitive. Он используется для нереальной или маловероятной ситуации в настоящем.",
-kz:"Дұрыс жауап — “had”. Бұл Second Conditional құрылымы: If + Past Simple, would + infinitive. Ол қазіргі уақытта шындыққа сай емес немесе мүмкіндігі төмен жағдайды білдіреді.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"2. If I had enough money, I ___ on safari to Kenya.",
-options:[
-"go",
-"went",
-"would go",
-"had gone"
-],
-answers:[2],
-ru:"Правильный ответ — “would go”. Во второй части Second Conditional используется “would + infinitive”.",
-kz:"Дұрыс жауап — “would go”. Second Conditional сөйлемінің негізгі бөлігінде “would + infinitive” қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"3. If I ___ enough money, I would have gone with them.",
-options:[
-"have",
-"had",
-"had had",
-"will have"
-],
-answers:[2],
-ru:"Правильный ответ — “had had”. Это Third Conditional: If + Past Perfect, would have + Past Participle. Он показывает нереальную ситуацию в прошлом.",
-kz:"Дұрыс жауап — “had had”. Бұл Third Conditional құрылымы: If + Past Perfect, would have + Past Participle. Ол өткен шақта орындалмаған жағдайды білдіреді.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"4. If I had known you were allergic to chocolate, I ___ you a vanilla cake.",
-options:[
-"make",
-"made",
-"would make",
-"would have made"
-],
-answers:[3],
-ru:"Правильный ответ — “would have made”. Это Third Conditional. В главной части используется “would have + past participle”.",
-kz:"Дұрыс жауап — “would have made”. Бұл Third Conditional. Негізгі бөлікте “would have + past participle” қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"5. If she ___ with us, she could act as our interpreter.",
-options:[
-"is",
-"were",
-"had been",
-"will be"
-],
-answers:[1],
-ru:"Правильный ответ — “were”. Для нереальной ситуации в настоящем после “if” часто используется “were” для всех лиц.",
-kz:"Дұрыс жауап — “were”. Қазіргі уақыттағы шындыққа сай емес жағдайларда “if” бөлігінде барлық жақтар үшін “were” жиі қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"6. If Jerry hadn’t stopped to pick up that quarter, he ___ the street when the bus ran the red light.",
-options:[
-"crosses",
-"crossed",
-"would be crossing",
-"would have been crossing"
-],
-answers:[3],
-ru:"Правильный ответ — “would have been crossing”. Здесь говорится о нереальном результате в прошлом, поэтому используется форма “would have been + -ing”.",
-kz:"Дұрыс жауап — “would have been crossing”. Мұнда өткен шақтағы орындалмаған нәтиже айтылып тұр, сондықтан “would have been + -ing” формасы қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — Conditionals"
-},
-{
-type:"single",
-q:"7. I wish I ___ to him yesterday.",
-options:[
-"talk",
-"talked",
-"had talked",
-"will talk"
-],
-answers:[2],
-ru:"Правильный ответ — “had talked”. После “wish” для сожаления о прошлом используется Past Perfect.",
-kz:"Дұрыс жауап — “had talked”. Өткен шақтағы өкінішті білдіру үшін “wish” сөзінен кейін Past Perfect қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — Wish-structures"
-},
-{
-type:"single",
-q:"8. I wish I ___ rich.",
-options:[
-"am",
-"were",
-"had been",
-"will be"
-],
-answers:[1],
-ru:"Правильный ответ — “were”. После “wish” для желания о настоящем используется unreal past form: “I wish I were…”.",
-kz:"Дұрыс жауап — “were”. Қазіргі жағдайға қатысты арманды білдіру үшін “wish” сөзінен кейін unreal past form қолданылады: “I wish I were…”.",
-source:"Textbook-based / POFLIC Unit 2.1 — Wish-structures"
-},
-{
-type:"single",
-q:"9. If only he ___ hard, he would have passed the exam.",
-options:[
-"works",
-"worked",
-"had worked",
-"will work"
-],
-answers:[2],
-ru:"Правильный ответ — “had worked”. “If only” здесь выражает сожаление о прошлом, поэтому нужен Past Perfect.",
-kz:"Дұрыс жауап — “had worked”. Бұл жерде “If only” өткен шақтағы өкінішті білдіреді, сондықтан Past Perfect қажет.",
-source:"Textbook-based / POFLIC Unit 2.1 — Wish-structures"
-},
-{
-type:"single",
-q:"10. When I ___ a letter, I usually write back immediately.",
-options:[
-"get",
-"got",
-"will get",
-"had got"
-],
-answers:[0],
-ru:"Правильный ответ — “get”. “When” здесь описывает обычное повторяющееся действие, поэтому используется Present Simple.",
-kz:"Дұрыс жауап — “get”. Бұл сөйлемде “when” әдеттегі қайталанатын әрекетті білдіреді, сондықтан Present Simple қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.1 — If / When"
-},
-{
-type:"single",
-q:"11. It is important that she ___ her medicine twice a day.",
-options:[
-"remembers",
-"remember",
-"remembered",
-"will remember"
-],
-answers:[1],
-ru:"Правильный ответ — “remember”. После выражений типа “It is important that…” используется subjunctive: глагол в форме bare infinitive без -s.",
-kz:"Дұрыс жауап — “remember”. “It is important that…” сияқты құрылымдардан кейін subjunctive қолданылады: етістік -s жалғауынсыз, бастапқы түрде келеді.",
-source:"Textbook-based / POFLIC Unit 2.2 — Subjunctive"
-},
-{
-type:"single",
-q:"12. I suggest that Frank ___ the directions carefully.",
-options:[
-"reads",
-"read",
-"reading",
-"has read"
-],
-answers:[1],
-ru:"Правильный ответ — “read”. После “suggest that” используется subjunctive, то есть bare infinitive без окончания -s.",
-kz:"Дұрыс жауап — “read”. “Suggest that” құрылымынан кейін subjunctive қолданылады, яғни етістік -s жалғауынсыз келеді.",
-source:"Textbook-based / POFLIC Unit 2.2 — Subjunctive"
-},
-{
-type:"single",
-q:"13. Mrs. Finkelstein demanded that the heater ___ immediately.",
-options:[
-"repairs",
-"repaired",
-"be repaired",
-"repairing"
-],
-answers:[2],
-ru:"Правильный ответ — “be repaired”. Это passive subjunctive: be + past participle. Обогреватель должен быть отремонтирован кем-то.",
-kz:"Дұрыс жауап — “be repaired”. Бұл passive subjunctive: be + past participle. Жылытқышты біреу жөндеуі керек, сондықтан пассив форма қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.2 — Passive Subjunctive"
-},
-{
-type:"single",
-q:"14. It is vital that the United States ___ on improving its public education system.",
-options:[
-"focuses",
-"focus",
-"focused",
-"will focus"
-],
-answers:[1],
-ru:"Правильный ответ — “focus”. После “It is vital that…” используется subjunctive, поэтому глагол стоит без -es.",
-kz:"Дұрыс жауап — “focus”. “It is vital that…” құрылымынан кейін subjunctive қолданылады, сондықтан етістік -es жалғауынсыз жазылады.",
-source:"Textbook-based / POFLIC Unit 2.2 — Subjunctive"
-},
-{
-type:"single",
-q:"15. The teacher insists that her students ___ on time.",
-options:[
-"are",
-"were",
-"be",
-"will be"
-],
-answers:[2],
-ru:"Правильный ответ — “be”. После “insist that” используется subjunctive. Для глагола “to be” форма subjunctive — “be”.",
-kz:"Дұрыс жауап — “be”. “Insist that” құрылымынан кейін subjunctive қолданылады. “To be” етістігінің subjunctive формасы — “be”.",
-source:"Textbook-based / POFLIC Unit 2.2 — Subjunctive"
-},
-{
-type:"single",
-q:"16. I suggest that you ___ the job without renegotiating the salary.",
-options:[
-"not take",
-"do not took",
-"not to take",
-"not taking"
-],
-answers:[0],
-ru:"Правильный ответ — “not take”. В отрицательном subjunctive используется структура “not + bare infinitive”.",
-kz:"Дұрыс жауап — “not take”. Теріс subjunctive формасында “not + bare infinitive” құрылымы қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.2 — Negative Subjunctive"
-},
-{
-type:"single",
-q:"17. Jake recommended that Susan ___ immediately.",
-options:[
-"hired",
-"is hired",
-"be hired",
-"hiring"
-],
-answers:[2],
-ru:"Правильный ответ — “be hired”. После “recommended that” в passive subjunctive используется “be + past participle”.",
-kz:"Дұрыс жауап — “be hired”. “Recommended that” құрылымынан кейін passive subjunctive түрінде “be + past participle” қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.2 — Passive Subjunctive"
-},
-{
-type:"single",
-q:"18. It is imperative that the world ___ towards a solution to global warming.",
-options:[
-"works",
-"work",
-"worked",
-"will work"
-],
-answers:[1],
-ru:"Правильный ответ — “work”. После “It is imperative that…” используется subjunctive: глагол в начальной форме без -s.",
-kz:"Дұрыс жауап — “work”. “It is imperative that…” құрылымынан кейін subjunctive қолданылады: етістік бастапқы формада, -s жалғауынсыз келеді.",
-source:"Textbook-based / POFLIC Unit 2.2 — Subjunctive"
-},
-{
-type:"single",
-q:"19. It’s high time we ___.",
-options:[
-"leave",
-"left",
-"will leave",
-"have left"
-],
-answers:[1],
-ru:"Правильный ответ — “left”. После “It’s high time” используется Past Simple, хотя значение относится к настоящему или ближайшему будущему.",
-kz:"Дұрыс жауап — “left”. “It’s high time” құрылымынан кейін Past Simple қолданылады, бірақ мағынасы қазіргі уақытқа немесе жақын болашаққа қатысты болады.",
-source:"Textbook-based / POFLIC Unit 2.3 — Unreal Past"
-},
-{
-type:"single",
-q:"20. If only we ___ a phone!",
-options:[
-"have",
-"had",
-"had had",
-"will have"
-],
-answers:[1],
-ru:"Правильный ответ — “had”. “If only” для желания или сожаления о настоящем требует Past Simple.",
-kz:"Дұрыс жауап — “had”. Қазіргі уақытқа қатысты тілек немесе өкінішті білдіру үшін “If only” кейін Past Simple қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.3 — Unreal Past"
-},
-{
-type:"single",
-q:"21. He walks as if he ___ a wooden leg.",
-options:[
-"has",
-"had",
-"has had",
-"will have"
-],
-answers:[1],
-ru:"Правильный ответ — “had”. После “as if” для нереальной ситуации используется Past Simple.",
-kz:"Дұрыс жауап — “had”. “As if” кейін шындыққа сай емес жағдай айтылса, Past Simple қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.3 — Forms Expressing Unreality"
-},
-{
-type:"single",
-q:"22. I wish I ___ what is wrong with my car.",
-options:[
-"know",
-"knew",
-"had known",
-"will know"
-],
-answers:[1],
-ru:"Правильный ответ — “knew”. Желание о настоящем после “wish” выражается через Past Simple.",
-kz:"Дұрыс жауап — “knew”. Қазіргі жағдайға қатысты тілек “wish” сөзінен кейін Past Simple арқылы беріледі.",
-source:"Textbook-based / POFLIC Unit 2.3 — Wish / Unreal Past"
-},
-{
-type:"single",
-q:"23. I wish I ___ the fishmonger to clean these fish.",
-options:[
-"ask",
-"asked",
-"had asked",
-"will ask"
-],
-answers:[2],
-ru:"Правильный ответ — “had asked”. Это сожаление о прошлом, поэтому после “wish” используется Past Perfect.",
-kz:"Дұрыс жауап — “had asked”. Бұл өткен шақтағы өкініш, сондықтан “wish” сөзінен кейін Past Perfect қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.3 — Wish for Past Situations"
-},
-{
-type:"single",
-q:"24. It’s time we ___ something to stop road accidents.",
-options:[
-"do",
-"did",
-"have done",
-"will do"
-],
-answers:[1],
-ru:"Правильный ответ — “did”. После “It’s time” используется Past Simple для значения “уже пора сделать что-то”.",
-kz:"Дұрыс жауап — “did”. “It’s time” құрылымынан кейін Past Simple қолданылады, мағынасы “бір нәрсені істеудің уақыты келді” дегенді білдіреді.",
-source:"Textbook-based / POFLIC Unit 2.3 — Unreal Past"
-},
-{
-type:"single",
-q:"25. He treats us as if we ___ all idiots.",
-options:[
-"are",
-"were",
-"had been",
-"will be"
-],
-answers:[1],
-ru:"Правильный ответ — “were”. После “as if” для нереального сравнения используется Past Simple / were.",
-kz:"Дұрыс жауап — “were”. “As if” кейін шындыққа сай емес салыстыру айтылғанда Past Simple немесе “were” қолданылады.",
-source:"Textbook-based / POFLIC Unit 2.3 — As if / Unreal Past"
-},
-{
-type:"single",
-q:"26. I’d rather you ___ the other umbrella.",
-options:[
-"take",
-"took",
-"had taken",
-"taking"
-],
-answers:[1],
-ru:"Правильный ответ — “took”. После “would rather + subject” используется Past Simple, когда говорящий хочет, чтобы другой человек сделал что-то.",
-kz:"Дұрыс жауап — “took”. “Would rather + subject” құрылымынан кейін Past Simple қолданылады, егер сөйлеуші басқа адамның бір әрекет жасағанын қаласа.",
-source:"Textbook-based / POFLIC Unit 2.3 — Would rather"
+function langText(kz, ru){
+  return currentSiteLang() === 'ru' ? ru : kz;
 }
-]
-},  
-unit3:{
-title:"Unit 3 Grammar — Gerund, Infinitive and Present Participle",
-questions:[
-{
-type:"single",
-q:"1. After a time I got used to ___ alone.",
-options:[
-"live",
-"living",
-"to live",
-"lived"
-],
-answers:[1],
-ru:"Правильный ответ — “living”. После выражения “get used to” используется gerund, потому что “to” здесь является предлогом, а после предлогов нужен -ing form.",
-kz:"Дұрыс жауап — “living”. “Get used to” тіркесінен кейін gerund қолданылады, себебі бұл жерде “to” предлог қызметін атқарады. Ал предлогтан кейін етістік -ing формасында келеді.",
-source:"Textbook-based / POFLIC Unit 3.1 — Gerund"
-},
-{
-type:"single",
-q:"2. I meant ___ an evening paper.",
-options:[
-"buy",
-"buying",
-"to buy",
-"bought"
-],
-answers:[2],
-ru:"Правильный ответ — “to buy”. “Mean to do something” означает намереваться что-то сделать, поэтому нужен infinitive.",
-kz:"Дұрыс жауап — “to buy”. “Mean to do something” бір нәрсені істеуге ниеттену деген мағынаны білдіреді, сондықтан infinitive қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.1 — Infinitive"
-},
-{
-type:"single",
-q:"3. I didn’t see anyone ___ newspapers.",
-options:[
-"sell",
-"to sell",
-"sold",
-"sells"
-],
-answers:[0],
-ru:"Правильный ответ — “sell”. После verbs of perception, например “see”, можно использовать bare infinitive: see someone do something.",
-kz:"Дұрыс жауап — “sell”. “See” сияқты қабылдау етістіктерінен кейін bare infinitive қолданыла алады: see someone do something.",
-source:"Textbook-based / POFLIC Unit 3.1 — Bare Infinitive after Verbs of Perception"
-},
-{
-type:"single",
-q:"4. I want ___ the 7 a.m. train.",
-options:[
-"catch",
-"catching",
-"to catch",
-"caught"
-],
-answers:[2],
-ru:"Правильный ответ — “to catch”. После глагола “want” используется to-infinitive: want to do something.",
-kz:"Дұрыс жауап — “to catch”. “Want” етістігінен кейін to-infinitive қолданылады: want to do something.",
-source:"Textbook-based / POFLIC Unit 3.1 — Infinitive after Want"
-},
-{
-type:"single",
-q:"5. That means ___ up at 6.00.",
-options:[
-"get",
-"getting",
-"to get",
-"got"
-],
-answers:[1],
-ru:"Правильный ответ — “getting”. Когда “mean” означает “означать / подразумевать”, после него используется gerund.",
-kz:"Дұрыс жауап — “getting”. “Mean” етістігі “білдіру / қажет ету” мағынасында қолданылса, одан кейін gerund қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.1 — Mean + Gerund"
-},
-{
-type:"single",
-q:"6. He was afraid ___ his job.",
-options:[
-"lose",
-"losing",
-"to lose",
-"lost"
-],
-answers:[2],
-ru:"Правильный ответ — “to lose”. “Afraid to do something” используется, когда человек боится совершить действие или столкнуться с возможным результатом.",
-kz:"Дұрыс жауап — “to lose”. “Afraid to do something” адам бір әрекетті істеуге немесе белгілі бір нәтижеге тап болуға қорыққанда қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.1 — Afraid + Infinitive"
-},
-{
-type:"single",
-q:"7. He was afraid of ___ his job.",
-options:[
-"lose",
-"losing",
-"to lose",
-"lost"
-],
-answers:[1],
-ru:"Правильный ответ — “losing”. После предлога “of” всегда используется gerund, поэтому правильно “afraid of losing”.",
-kz:"Дұрыс жауап — “losing”. “Of” предлогынан кейін әрқашан gerund қолданылады, сондықтан дұрыс нұсқа — “afraid of losing”.",
-source:"Textbook-based / POFLIC Unit 3.1 — Gerund after Prepositions"
-},
-{
-type:"single",
-q:"8. She remembers ___ to school for the first time.",
-options:[
-"go",
-"going",
-"to go",
-"gone"
-],
-answers:[1],
-ru:"Правильный ответ — “going”. “Remember doing” означает помнить действие, которое уже произошло в прошлом.",
-kz:"Дұрыс жауап — “going”. “Remember doing” бұрын болған әрекетті есте сақтау дегенді білдіреді.",
-source:"Textbook-based / POFLIC Unit 3.2 — Remember + Gerund"
-},
-{
-type:"single",
-q:"9. Did you remember ___ the car?",
-options:[
-"lock",
-"locking",
-"to lock",
-"locked"
-],
-answers:[2],
-ru:"Правильный ответ — “to lock”. “Remember to do” означает не забыть выполнить действие.",
-kz:"Дұрыс жауап — “to lock”. “Remember to do” әрекетті орындауды ұмытпау деген мағынаны білдіреді.",
-source:"Textbook-based / POFLIC Unit 3.2 — Remember + Infinitive"
-},
-{
-type:"single",
-q:"10. I was afraid of ___ blown to pieces.",
-options:[
-"be",
-"being",
-"to be",
-"been"
-],
-answers:[1],
-ru:"Правильный ответ — “being”. После “afraid of” используется gerund. Так как значение пассивное, нужна форма “being + past participle”: being blown.",
-kz:"Дұрыс жауап — “being”. “Afraid of” тіркесінен кейін gerund қолданылады. Мағына пассив болғандықтан, “being + past participle” формасы керек: being blown.",
-source:"Textbook-based / POFLIC Unit 3.2 — Passive Gerund"
-},
-{
-type:"single",
-q:"11. Remember ___ the agent for clear directions.",
-options:[
-"ask",
-"asking",
-"to ask",
-"asked"
-],
-answers:[2],
-ru:"Правильный ответ — “to ask”. Здесь речь о будущем действии, которое нужно не забыть выполнить, поэтому используется “remember to ask”.",
-kz:"Дұрыс жауап — “to ask”. Бұл жерде болашақта орындалуы керек әрекет туралы айтылып тұр, сондықтан “remember to ask” қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.2 — Remember + Infinitive"
-},
-{
-type:"single",
-q:"12. I wasted hours ___ for the last house.",
-options:[
-"look",
-"looking",
-"to look",
-"looked"
-],
-answers:[1],
-ru:"Правильный ответ — “looking”. После выражений “waste time / waste hours” используется gerund.",
-kz:"Дұрыс жауап — “looking”. “Waste time / waste hours” тіркестерінен кейін gerund қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.2 — Waste Time + Gerund"
-},
-{
-type:"single",
-q:"13. Let’s ___ for a swim.",
-options:[
-"go",
-"going",
-"to go",
-"gone"
-],
-answers:[0],
-ru:"Правильный ответ — “go”. После “Let’s” используется bare infinitive, то есть глагол без “to”.",
-kz:"Дұрыс жауап — “go”. “Let’s” құрылымынан кейін bare infinitive қолданылады, яғни етістік “to” сөзінсіз келеді.",
-source:"Textbook-based / POFLIC Unit 3.2 — Bare Infinitive after Let’s"
-},
-{
-type:"single",
-q:"14. I’m not particularly keen on ___.",
-options:[
-"swim",
-"swimming",
-"to swim",
-"swam"
-],
-answers:[1],
-ru:"Правильный ответ — “swimming”. После предлога “on” используется gerund.",
-kz:"Дұрыс жауап — “swimming”. “On” предлогынан кейін gerund қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.2 — Gerund after Prepositions"
-},
-{
-type:"single",
-q:"15. They decided ___ anywhere.",
-options:[
-"not go",
-"not going",
-"not to go",
-"not gone"
-],
-answers:[2],
-ru:"Правильный ответ — “not to go”. После “decide” используется infinitive. Отрицательная форма infinitive — “not to + verb”.",
-kz:"Дұрыс жауап — “not to go”. “Decide” етістігінен кейін infinitive қолданылады. Infinitive-тің теріс формасы — “not to + verb”.",
-source:"Textbook-based / POFLIC Unit 3.2 — Decide + Infinitive"
-},
-{
-type:"single",
-q:"16. The lecturer began by ___ us where the island was.",
-options:[
-"tell",
-"telling",
-"to tell",
-"told"
-],
-answers:[1],
-ru:"Правильный ответ — “telling”. После предлога “by” используется gerund.",
-kz:"Дұрыс жауап — “telling”. “By” предлогынан кейін gerund қолданылады.",
-source:"Textbook-based / POFLIC Unit 3.3 — Gerund after By"
-},
-{
-type:"single",
-q:"17. My father thinks I am not capable of ___ my own living.",
-options:[
-"earn",
-"earning",
-"to earn",
-"earned"
-],
-answers:[1],
-ru:"Правильный ответ — “earning”. После выражения “capable of” используется gerund, потому что “of” — предлог.",
-kz:"Дұрыс жауап — “earning”. “Capable of” тіркесінен кейін gerund қолданылады, себебі “of” — предлог.",
-source:"Textbook-based / POFLIC Unit 3.3 — Capable of + Gerund"
-},
-{
-type:"single",
-q:"18. I mean ___ him that he is wrong.",
-options:[
-"show",
-"showing",
-"to show",
-"showed"
-],
-answers:[2],
-ru:"Правильный ответ — “to show”. “Mean to do” означает намереваться сделать что-то.",
-kz:"Дұрыс жауап — “to show”. “Mean to do” бір нәрсені істеуге ниеттену деген мағынаны білдіреді.",
-source:"Textbook-based / POFLIC Unit 3.3 — Mean + Infinitive"
-},
-{
-type:"single",
-q:"19. Have you tried ___ the radiator with hot water?",
-options:[
-"fill",
-"filling",
-"to fill",
-"filled"
-],
-answers:[1],
-ru:"Правильный ответ — “filling”. “Try doing” означает попробовать какой-то способ решения проблемы.",
-kz:"Дұрыс жауап — “filling”. “Try doing” мәселені шешудің бір тәсілін байқап көру дегенді білдіреді.",
-source:"Textbook-based / POFLIC Unit 3.3 — Try + Gerund"
-},
-{
-type:"single",
-q:"20. He isn’t strong enough ___ it.",
-options:[
-"move",
-"moving",
-"to move",
-"moved"
-],
-answers:[2],
-ru:"Правильный ответ — “to move”. После “adjective + enough” обычно используется infinitive: strong enough to move.",
-kz:"Дұрыс жауап — “to move”. “Adjective + enough” құрылымынан кейін әдетте infinitive қолданылады: strong enough to move.",
-source:"Textbook-based / POFLIC Unit 3.3 — Enough + Infinitive"
+function selectedExplanation(q){
+  return currentSiteLang() === 'ru' ? q.ru : q.kz;
 }
-]
-},
- unit4:{
-title:"Unit 4 Grammar — Phrases, Clauses and Purpose Clauses",
-questions:[
-{
-type:"single",
-q:"1. “By the lake” is a:",
-options:[
-"prepositional phrase",
-"appositive phrase",
-"gerund phrase",
-"infinitive phrase"
-],
-answers:[0],
-ru:"Правильный ответ — “prepositional phrase”. Фраза начинается с предлога “by”, поэтому это prepositional phrase.",
-kz:"Дұрыс жауап — “prepositional phrase”. Бұл тіркес “by” предлогынан басталады, сондықтан ол prepositional phrase болып табылады.",
-source:"Textbook-based / POFLIC Unit 4.1 — Types of Phrases"
-},
-{
-type:"single",
-q:"2. “Lou, a Viking, enjoys plunder.” The phrase “a Viking” is:",
-options:[
-"appositive",
-"adverbial phrase",
-"infinitive phrase",
-"clause of result"
-],
-answers:[0],
-ru:"Правильный ответ — “appositive”. “A Viking” уточняет и переименовывает существительное “Lou”.",
-kz:"Дұрыс жауап — “appositive”. “A Viking” тіркесі “Lou” зат есімін нақтылап, қайта атайды.",
-source:"Textbook-based / POFLIC Unit 4.1 — Appositive Phrase"
-},
-{
-type:"single",
-q:"3. “Eating slowly, the child was finally quiet” contains a:",
-options:[
-"participle phrase",
-"conditional clause",
-"passive structure",
-"reported speech"
-],
-answers:[0],
-ru:"Правильный ответ — “participle phrase”. “Eating slowly” — participle phrase, который описывает действие ребёнка.",
-kz:"Дұрыс жауап — “participle phrase”. “Eating slowly” — participle phrase, ол баланың әрекетін сипаттайды.",
-source:"Textbook-based / POFLIC Unit 4.1 — Participle Phrase"
-},
-{
-type:"single",
-q:"4. “Partying hearty requires great endurance” contains a:",
-options:[
-"gerund phrase",
-"appositive phrase",
-"result clause",
-"passive voice"
-],
-answers:[0],
-ru:"Правильный ответ — “gerund phrase”. “Partying hearty” выполняет функцию существительного, поэтому это gerund phrase.",
-kz:"Дұрыс жауап — “gerund phrase”. “Partying hearty” сөйлемде зат есім қызметін атқарады, сондықтан ол gerund phrase болып табылады.",
-source:"Textbook-based / POFLIC Unit 4.1 — Gerund Phrase"
-},
-{
-type:"single",
-q:"5. “To sleep late on Sunday is a real treat” contains a:",
-options:[
-"infinitive phrase",
-"passive construction",
-"comparative clause",
-"reported speech"
-],
-answers:[0],
-ru:"Правильный ответ — “infinitive phrase”. “To sleep late on Sunday” начинается с infinitive и выполняет функцию subject.",
-kz:"Дұрыс жауап — “infinitive phrase”. “To sleep late on Sunday” infinitive арқылы басталып, сөйлемде бастауыш қызметін атқарады.",
-source:"Textbook-based / POFLIC Unit 4.1 — Infinitive Phrase"
-},
-{
-type:"single",
-q:"6. “After visiting Barcelona, the circus moved on to Madrid” expresses:",
-options:[
-"time",
-"reason",
-"result",
-"comparison"
-],
-answers:[0],
-ru:"Правильный ответ — “time”. “After visiting Barcelona” показывает, когда произошло действие.",
-kz:"Дұрыс жауап — “time”. “After visiting Barcelona” әрекеттің қашан болғанын көрсетеді.",
-source:"Textbook-based / POFLIC Unit 4.2 — Temporal Clauses"
-},
-{
-type:"single",
-q:"7. “We had no electricity, so we had to use candles” expresses:",
-options:[
-"result",
-"place",
-"concession",
-"comparison"
-],
-answers:[0],
-ru:"Правильный ответ — “result”. Союз “so” показывает результат: электричества не было, поэтому пришлось использовать свечи.",
-kz:"Дұрыс жауап — “result”. “So” жалғаулығы нәтижені көрсетеді: электр жарығы болмағандықтан, шам қолдануға тура келді.",
-source:"Textbook-based / POFLIC Unit 4.2 — Result Clauses"
-},
-{
-type:"single",
-q:"8. “As long as you’re over 18, you can join the army” expresses:",
-options:[
-"condition",
-"result",
-"place",
-"comparison"
-],
-answers:[0],
-ru:"Правильный ответ — “condition”. “As long as” вводит условие: можно вступить в армию при условии, что человеку больше 18.",
-kz:"Дұрыс жауап — “condition”. “As long as” шартты білдіреді: адам 18 жастан асса ғана әскерге қосыла алады.",
-source:"Textbook-based / POFLIC Unit 4.2 — Conditional Clauses"
-},
-{
-type:"single",
-q:"9. “As he doesn’t drive, David always travels by train” expresses:",
-options:[
-"reason",
-"condition",
-"concession",
-"place"
-],
-answers:[0],
-ru:"Правильный ответ — “reason”. Здесь “as” означает “because” и объясняет причину.",
-kz:"Дұрыс жауап — “reason”. Бұл жерде “as” “because” мағынасында қолданылып, себепті түсіндіреді.",
-source:"Textbook-based / POFLIC Unit 4.2 — Reason Clauses"
-},
-{
-type:"single",
-q:"10. “Even though he worked hard, he failed the final exam” expresses:",
-options:[
-"concession",
-"result",
-"place",
-"purpose"
-],
-answers:[0],
-ru:"Правильный ответ — “concession”. “Even though” показывает уступку: несмотря на то, что он много работал, он провалил экзамен.",
-kz:"Дұрыс жауап — “concession”. “Even though” қарсылықты білдіреді: ол көп еңбектенсе де, емтиханнан өте алмады.",
-source:"Textbook-based / POFLIC Unit 4.2 — Concessive Clauses"
-},
-{
-type:"single",
-q:"11. David went out ___ a bottle of wine.",
-options:[
-"buying",
-"to buy",
-"bought",
-"buy"
-],
-answers:[1],
-ru:"Правильный ответ — “to buy”. “To + infinitive” выражает цель действия: он вышел, чтобы купить бутылку вина.",
-kz:"Дұрыс жауап — “to buy”. “To + infinitive” әрекеттің мақсатын білдіреді: ол шарап сатып алу үшін шықты.",
-source:"Textbook-based / POFLIC Unit 4.3 — Clauses of Purpose"
-},
-{
-type:"single",
-q:"12. We stayed late ___ finish the project.",
-options:[
-"in order to",
-"because",
-"although",
-"after"
-],
-answers:[0],
-ru:"Правильный ответ — “in order to”. Эта структура используется для выражения цели: мы остались поздно, чтобы закончить проект.",
-kz:"Дұрыс жауап — “in order to”. Бұл құрылым мақсатты білдіру үшін қолданылады: біз жобаны аяқтау үшін кешке дейін қалдық.",
-source:"Textbook-based / POFLIC Unit 4.3 — In order to"
-},
-{
-type:"single",
-q:"13. Here’s my number so that you ___ call me.",
-options:[
-"can",
-"could have",
-"had",
-"were"
-],
-answers:[0],
-ru:"Правильный ответ — “can”. Для цели в настоящем или будущем используется “so that + can/will”.",
-kz:"Дұрыс жауап — “can”. Қазіргі немесе болашақ мақсатты білдіру үшін “so that + can/will” қолданылады.",
-source:"Textbook-based / POFLIC Unit 4.3 — So that + can/will"
-},
-{
-type:"single",
-q:"14. We left early so that we ___ park close to the stadium.",
-options:[
-"can",
-"could",
-"will",
-"have"
-],
-answers:[1],
-ru:"Правильный ответ — “could”. Для цели в прошлом используется “so that + could/would”.",
-kz:"Дұрыс жауап — “could”. Өткен шақтағы мақсатты білдіру үшін “so that + could/would” қолданылады.",
-source:"Textbook-based / POFLIC Unit 4.3 — So that + could/would"
-},
-{
-type:"single",
-q:"15. Take your hat in case it ___ too hot.",
-options:[
-"gets",
-"got",
-"had got",
-"will got"
-],
-answers:[0],
-ru:"Правильный ответ — “gets”. После “in case” для настоящего или будущего значения обычно используется present tense.",
-kz:"Дұрыс жауап — “gets”. “In case” кейін қазіргі немесе болашақ мағынада әдетте present tense қолданылады.",
-source:"Textbook-based / POFLIC Unit 4.3 — In case + Present"
-},
-{
-type:"single",
-q:"16. We took an umbrella in case it ___.",
-options:[
-"rains",
-"rained",
-"has rained",
-"will rain"
-],
-answers:[1],
-ru:"Правильный ответ — “rained”. Для past reference после “in case” используется past tense.",
-kz:"Дұрыс жауап — “rained”. Өткен шақтағы мағына үшін “in case” кейін past tense қолданылады.",
-source:"Textbook-based / POFLIC Unit 4.3 — In case + Past"
-},
-{
-type:"single",
-q:"17. This function is for ___ humidity.",
-options:[
-"reduce",
-"reducing",
-"to reduce",
-"reduced"
-],
-answers:[1],
-ru:"Правильный ответ — “reducing”. “For + -ing” используется для выражения функции или назначения предмета.",
-kz:"Дұрыс жауап — “reducing”. “For + -ing” заттың қызметін немесе не үшін қолданылатынын білдіреді.",
-source:"Textbook-based / POFLIC Unit 4.3 — For + -ing"
-},
-{
-type:"single",
-q:"18. We walked quietly so as not ___ the children.",
-options:[
-"wake",
-"waking",
-"to wake",
-"woke"
-],
-answers:[2],
-ru:"Правильный ответ — “to wake”. После “so as not” используется “to + infinitive”: so as not to wake.",
-kz:"Дұрыс жауап — “to wake”. “So as not” құрылымынан кейін “to + infinitive” қолданылады: so as not to wake.",
-source:"Textbook-based / POFLIC Unit 4.3 — So as not to"
+function setLang(lang){
+  document.body.classList.toggle('lang-kz', lang === 'kz');
+  document.body.classList.toggle('lang-ru', lang === 'ru');
+  const kz=document.getElementById('btnKz');
+  const ru=document.getElementById('btnRu');
+  if(kz) kz.classList.toggle('active', lang === 'kz');
+  if(ru) ru.classList.toggle('active', lang === 'ru');
+  localStorage.setItem('siteLang', lang);
+  document.querySelectorAll('.result').forEach(el=>{ el.innerHTML=''; });
 }
-]
-},
- unit5:{
-title:"Unit 5 Grammar — Passive Voice, Sequence of Tenses, Reported Speech",
-questions:[
-{
-type:"single",
-q:"1. The accounts of this company ___ regularly twice a month.",
-options:[
-"check",
-"are checked",
-"checked",
-"have checked"
-],
-answers:[1],
-ru:"Правильный ответ — “are checked”. Здесь нужен Present Simple Passive, потому что accounts не сами проверяют, а их проверяют регулярно. Формула: am / is / are + V3.",
-kz:"Дұрыс жауап — “are checked”. Бұл жерде Present Simple Passive керек, себебі accounts өздері тексермейді, оларды біреу үнемі тексереді. Формуласы: am / is / are + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"2. This ___ as soon as possible.",
-options:[
-"will do",
-"will be done",
-"did",
-"has done"
-],
-answers:[1],
-ru:"Правильный ответ — “will be done”. Действие будет выполнено кем-то в будущем, поэтому нужен Future Simple Passive. Формула: will be + V3.",
-kz:"Дұрыс жауап — “will be done”. Әрекет болашақта біреу арқылы орындалады, сондықтан Future Simple Passive қолданылады. Формуласы: will be + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"3. Little progress ___ in grammar till now.",
-options:[
-"made",
-"has made",
-"has been made",
-"makes"
-],
-answers:[2],
-ru:"Правильный ответ — “has been made”. “Till now” показывает связь с настоящим, а progress был сделан, поэтому нужен Present Perfect Passive. Формула: has / have been + V3.",
-kz:"Дұрыс жауап — “has been made”. “Till now” қазіргі уақытпен байланысты көрсетеді, ал progress біреу арқылы жасалған, сондықтан Present Perfect Passive керек. Формуласы: has / have been + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"4. By the middle of next year, all grammar points ___.",
-options:[
-"will deal",
-"will be dealt with",
-"dealt",
-"are dealing"
-],
-answers:[1],
-ru:"Правильный ответ — “will be dealt with”. Grammar points сами не рассматривают, их будут рассматривать. Поэтому используется Future Passive: will be + V3.",
-kz:"Дұрыс жауап — “will be dealt with”. Grammar points өздері қарастырмайды, олар қарастырылады. Сондықтан Future Passive қолданылады: will be + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"5. The fridge ___ during our move.",
-options:[
-"damaged",
-"was damaged",
-"has damaged",
-"damages"
-],
-answers:[1],
-ru:"Правильный ответ — “was damaged”. Холодильник был повреждён во время переезда. Это Past Simple Passive: was / were + V3.",
-kz:"Дұрыс жауап — “was damaged”. Тоңазытқыш көшу кезінде зақымданған. Бұл Past Simple Passive: was / were + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"6. The goods ___ back to the manufacturer right now.",
-options:[
-"are sending",
-"are being sent",
-"sent",
-"have sent"
-],
-answers:[1],
-ru:"Правильный ответ — “are being sent”. “Right now” показывает процесс сейчас, а goods отправляются кем-то. Поэтому Present Continuous Passive: am / is / are being + V3.",
-kz:"Дұрыс жауап — “are being sent”. “Right now” әрекеттің дәл қазір болып жатқанын көрсетеді, ал goods біреу арқылы жіберіліп жатыр. Сондықтан Present Continuous Passive: am / is / are being + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"7. Ted ___ a scholarship recently.",
-options:[
-"awarded",
-"has awarded",
-"has been awarded",
-"awards"
-],
-answers:[2],
-ru:"Правильный ответ — “has been awarded”. Ted получил стипендию, то есть он был награждён. “Recently” часто требует Present Perfect, а значение пассивное.",
-kz:"Дұрыс жауап — “has been awarded”. Ted стипендия алды, яғни ол марапатталды. “Recently” Present Perfect-пен жиі қолданылады, ал мағына пассив.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"8. Some trees ___ by the gardener.",
-options:[
-"planted",
-"have planted",
-"have been planted",
-"planting"
-],
-answers:[2],
-ru:"Правильный ответ — “have been planted”. Деревья были посажены садовником. Объект действия — trees, поэтому нужен passive.",
-kz:"Дұрыс жауап — “have been planted”. Ағаштарды бағбан отырғызған. Әрекет объектісі — trees, сондықтан passive form керек.",
-source:"Textbook-based / POFLIC Unit 5.1 — Active to Passive"
-},
-{
-type:"single",
-q:"9. The hotel ___ by a famous designer.",
-options:[
-"will redecorate",
-"will be redecorated",
-"redecorates",
-"has redecorated"
-],
-answers:[1],
-ru:"Правильный ответ — “will be redecorated”. Отель будет обновлён дизайнером. Это Future Passive: will be + V3.",
-kz:"Дұрыс жауап — “will be redecorated”. Қонақүйді атақты дизайнер қайта безендіреді. Бұл Future Passive: will be + V3.",
-source:"Textbook-based / POFLIC Unit 5.1 — Active to Passive"
-},
-{
-type:"single",
-q:"10. Italian ___ in Italy.",
-options:[
-"speaks",
-"is spoken",
-"spoke",
-"has spoken"
-],
-answers:[1],
-ru:"Правильный ответ — “is spoken”. Язык не говорит сам, на нём говорят люди. Поэтому используется Present Simple Passive: is spoken.",
-kz:"Дұрыс жауап — “is spoken”. Тіл өзі сөйлемейді, адамдар сол тілде сөйлейді. Сондықтан Present Simple Passive қолданылады: is spoken.",
-source:"Textbook-based / POFLIC Unit 5.1 — Passive Voice"
-},
-{
-type:"single",
-q:"11. He ran away when he ___ me.",
-options:[
-"sees",
-"saw",
-"had seen",
-"will see"
-],
-answers:[1],
-ru:"Правильный ответ — “saw”. Основное действие в прошлом: “ran away”, поэтому в придаточной части также используется Past Simple.",
-kz:"Дұрыс жауап — “saw”. Негізгі әрекет өткен шақта: “ran away”, сондықтан бағыныңқы бөлікте де Past Simple қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"
-},
-{
-type:"single",
-q:"12. I never understood why he ___ like this.",
-options:[
-"behaves",
-"behaved",
-"has behaved",
-"will behave"
-],
-answers:[1],
-ru:"Правильный ответ — “behaved”. Главный глагол “understood” стоит в прошлом, поэтому действует согласование времён.",
-kz:"Дұрыс жауап — “behaved”. Негізгі етістік “understood” өткен шақта тұр, сондықтан шақтардың сәйкестігі сақталады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"
-},
-{
-type:"single",
-q:"13. His mother says that he ___ much better now.",
-options:[
-"is",
-"was",
-"had been",
-"will be"
-],
-answers:[0],
-ru:"Правильный ответ — “is”. Главный глагол “says” стоит в настоящем времени, поэтому в придаточном предложении можно использовать Present Simple.",
-kz:"Дұрыс жауап — “is”. Негізгі етістік “says” қазіргі шақта тұр, сондықтан бағыныңқы сөйлемде Present Simple қолдануға болады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"
-},
-{
-type:"single",
-q:"14. He walked as if he ___ lame.",
-options:[
-"is",
-"was / were",
-"has been",
-"will be"
-],
-answers:[1],
-ru:"Правильный ответ — “was / were”. После “as if” часто используется unreal past form, когда ситуация выглядит нереальной или условной.",
-kz:"Дұрыс жауап — “was / were”. “As if” құрылымынан кейін жағдай шындыққа сай емес немесе шартты болып көрінсе, unreal past form қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses / Unreal Comparison"
-},
-{
-type:"single",
-q:"15. Julie said, “I’d go and see a doctor if I were you.” Julie ___ me to see a doctor.",
-options:[
-"advised",
-"said",
-"told",
-"ordered"
-],
-answers:[0],
-ru:"Правильный ответ — “advised”. Фраза “If I were you…” обычно выражает совет, поэтому reporting verb — “advised”.",
-kz:"Дұрыс жауап — “advised”. “If I were you…” тіркесі әдетте кеңес білдіреді, сондықтан reporting verb ретінде “advised” қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-},
-{
-type:"single",
-q:"16. “Can you help me with this box?” John ___ me to help him with the box.",
-options:[
-"asked",
-"said",
-"warned",
-"suggested"
-],
-answers:[0],
-ru:"Правильный ответ — “asked”. Это просьба, поэтому в reported speech используется “asked someone to do something”.",
-kz:"Дұрыс жауап — “asked”. Бұл өтініш, сондықтан reported speech ішінде “asked someone to do something” құрылымы қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-},
-{
-type:"single",
-q:"17. “Shut up now!” The headmaster ___ Mr. Jenkins to shut up.",
-options:[
-"ordered",
-"suggested",
-"offered",
-"advised"
-],
-answers:[0],
-ru:"Правильный ответ — “ordered”. Это приказ, поэтому используется reporting verb “ordered”.",
-kz:"Дұрыс жауап — “ordered”. Бұл бұйрық, сондықтан reporting verb ретінде “ordered” қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-},
-{
-type:"single",
-q:"18. “That road is very dangerous.” His mother ___ him that the road was dangerous.",
-options:[
-"warned",
-"offered",
-"suggested",
-"asked"
-],
-answers:[0],
-ru:"Правильный ответ — “warned”. Мать предупреждает об опасности, поэтому правильный reporting verb — “warned”.",
-kz:"Дұрыс жауап — “warned”. Анасы қауіп туралы ескертіп тұр, сондықтан дұрыс reporting verb — “warned”.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-},
-{
-type:"single",
-q:"19. “Why don’t we go and see that new film?” Bill ___ going to see the new film.",
-options:[
-"suggested",
-"warned",
-"ordered",
-"told"
-],
-answers:[0],
-ru:"Правильный ответ — “suggested”. “Why don’t we…” выражает предложение. После “suggest” часто используется gerund: suggested going.",
-kz:"Дұрыс жауап — “suggested”. “Why don’t we…” ұсыныс білдіреді. “Suggest” етістігінен кейін жиі gerund қолданылады: suggested going.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-},
-{
-type:"single",
-q:"20. “I can look after the children tomorrow night.” Jane ___ to look after the children the following day.",
-options:[
-"offered",
-"ordered",
-"warned",
-"asked"
-],
-answers:[0],
-ru:"Правильный ответ — “offered”. Jane предлагает помощь, поэтому используется reporting verb “offered”.",
-kz:"Дұрыс жауап — “offered”. Jane көмектесуді ұсынып тұр, сондықтан reporting verb ретінде “offered” қолданылады.",
-source:"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"
-}
-]
-},
-  };
+document.addEventListener('DOMContentLoaded', function(){
+  setLang(localStorage.getItem('siteLang') || 'kz');
+});
+
+
+const DATA ={"unit1":{"title":"Unit 1 Grammar — Gender Bias in English","questions":[{"type":"single","q":"1. Choose the gender-inclusive version of the sentence: “The average student is worried about his grades.”","options":["The average student is worried about his grades.","The average student is worried about her grades.","Students are worried about their grades.","The student is worried about mankind."],"answers":[2],"ru":"Правильный ответ — “Students are worried about their grades.” В современном английском языке лучше избегать псевдо-общего “his”, потому что оно делает мужской род нормой. Форма “students / their” делает предложение гендерно нейтральным.","kz":"Дұрыс жауап — “Students are worried about their grades.” Қазіргі ағылшын тілінде жалпы мағынада “his” қолданудан қашқан дұрыс, себебі ол ер адамды негізгі норма ретінде көрсетеді. “Students / their” формасы сөйлемді гендерлік бейтарап етеді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"2. Choose the best gender-neutral replacement for “mankind”.","options":["man","mankind","humanity","male society"],"answers":[2],"ru":"Правильный ответ — “humanity”. Слово “mankind” содержит компонент “man”, поэтому в gender-neutral English лучше использовать “humanity” или “humankind”.","kz":"Дұрыс жауап — “humanity”. “Mankind” сөзінің құрамында “man” бар, сондықтан гендерлік бейтарап ағылшын тілінде “humanity” немесе “humankind” қолданған дұрыс.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"3. Choose the gender-neutral replacement for “man-made”.","options":["artificial","male-made","mankind-made","made by men only"],"answers":[0],"ru":"Правильный ответ — “artificial”. “Man-made” можно заменить на “artificial”, потому что оно означает “созданный человеком” без гендерной маркировки.","kz":"Дұрыс жауап — “artificial”. “Man-made” сөзін “artificial” сөзімен ауыстыруға болады, себебі ол “адам жасаған” деген мағынаны береді және гендерлік белгісі жоқ.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"4. Choose the gender-neutral replacement for “manpower”.","options":["men","workers","male force","mankind"],"answers":[1],"ru":"Правильный ответ — “workers”. “Manpower” лучше заменить на “workers”, “staff” или “workforce”, потому что эти слова не указывают на пол.","kz":"Дұрыс жауап — “workers”. “Manpower” сөзін “workers”, “staff” немесе “workforce” сөздерімен ауыстырған дұрыс, себебі олар адамның жынысын көрсетпейді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"5. Choose the gender-neutral job title.","options":["fireman","policeman","firefighter","chairman"],"answers":[2],"ru":"Правильный ответ — “firefighter”. “Fireman” содержит “man” и звучит как профессия только для мужчин, а “firefighter” подходит для любого человека.","kz":"Дұрыс жауап — “firefighter”. “Fireman” сөзінде “man” бар және ол мамандық тек ер адамдарға қатысты сияқты естіледі. “Firefighter” кез келген адамға қатысты қолданылады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"6. Choose the gender-neutral replacement for “chairman”.","options":["chairperson","man-chair","headman","male leader"],"answers":[0],"ru":"Правильный ответ — “chairperson”. Это нейтральная форма, которая подходит независимо от пола человека.","kz":"Дұрыс жауап — “chairperson”. Бұл адамның жынысына қарамай қолданылатын бейтарап атау.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"7. Choose the gender-neutral replacement for “waiter/waitress”.","options":["servant","server","waitressman","restaurant girl"],"answers":[1],"ru":"Правильный ответ — “server”. “Waiter” и “waitress” маркируют пол, а “server” является нейтральным названием профессии.","kz":"Дұрыс жауап — “server”. “Waiter” және “waitress” адамның жынысын көрсетеді, ал “server” — гендерлік бейтарап кәсіби атау.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"8. Choose the correct pronouns: “The senior class, ___ had a meeting, decided ___ would hold a dance.”","options":["who / they","which / it","he / his","she / her"],"answers":[1],"ru":"Правильный ответ — “which / it”. “Class” здесь рассматривается как одна коллективная единица, поэтому можно использовать “which” и “it”.","kz":"Дұрыс жауап — “which / it”. Бұл сөйлемде “class” бір ұжымдық бірлік ретінде қарастырылады, сондықтан “which” және “it” қолданылады.","source":"Textbook-based / POFLIC Unit 1.1 — Pronoun Reference"},{"type":"single","q":"9. Choose the correct pronouns: “This infant, ___ is an orphan, acts as though ___ is hungry.”","options":["who / he or she","which / it","who / they only","that / them"],"answers":[0],"ru":"Правильный ответ — “who / he or she”. Для ребёнка как человека используется “who”. Если пол неизвестен, можно использовать “he or she” или в современном английском “they”.","kz":"Дұрыс жауап — “who / he or she”. Бала адам болғандықтан “who” қолданылады. Егер жынысы белгісіз болса, “he or she” немесе қазіргі ағылшын тілінде “they” қолдануға болады.","source":"Textbook-based / POFLIC Unit 1.1 — Pronoun Reference"},{"type":"single","q":"10. Choose the gender-inclusive sentence.","options":["Every teacher should know his duty.","Every teacher should know her duty.","Teachers should know their duties.","Every teacher should know mankind."],"answers":[2],"ru":"Правильный ответ — “Teachers should know their duties.” Множественная форма “teachers / their” помогает избежать gender bias и делает предложение нейтральным.","kz":"Дұрыс жауап — “Teachers should know their duties.” Көпше түрдегі “teachers / their” гендерлік біржақтылықтан сақтайды және сөйлемді бейтарап етеді.","source":"Topic-based extra / POFLIC Unit 1.1 — Gender-neutral Language"},{"type":"single","q":"11. Choose the inclusive alternative: “When the student hands in his paper, grade it immediately.”","options":["When the student hands in the paper, grade it immediately.","When the student hands in his paper, grade it immediately.","When the student hands in her paper, grade it immediately.","When mankind hands in the paper, grade it immediately."],"answers":[0],"ru":"Правильный ответ — “When the student hands in the paper…”. Здесь possessive “his” можно убрать и заменить артиклем “the”, чтобы избежать gender bias.","kz":"Дұрыс жауап — “When the student hands in the paper…”. Мұнда “his” possessive формасын алып тастап, “the” артиклімен ауыстыруға болады, сондықтан gender bias болмайды.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"12. Choose the inclusive alternative: “Give the student his grade right away.”","options":["Give students their grades right away.","Give the student his grade right away.","Give the student her grade right away.","Give man his grade right away."],"answers":[0],"ru":"Правильный ответ — plural form “students / their”. Множественная форма помогает избежать выбора he/his или she/her.","kz":"Дұрыс жауап — көпше форма “students / their”. Көпше форма he/his немесе she/her таңдаудан сақтайды.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"13. Choose the inclusive alternative: “Ask the student to hand in his work as soon as he is finished.”","options":["Ask students to hand in their work as soon as they are finished.","Ask the student to hand in his work as soon as he is finished.","Ask the student to hand in her work as soon as she is finished.","Ask mankind to hand in its work."],"answers":[0],"ru":"Правильный ответ — plural form. “Students / their / they” делает sentence inclusive.","kz":"Дұрыс жауап — plural form. “Students / their / they” сөйлемді inclusive етеді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"14. Choose the inclusive alternative: “When a teacher asks a question, he seeks student response.”","options":["When you ask a question as a teacher, you seek student response.","When a teacher asks a question, he seeks student response.","When a teacher asks a question, mankind seeks student response.","When a teacher asks a question, she seeks student response."],"answers":[0],"ru":"Правильный ответ использует second person “you”. First/second person can replace third person to avoid pseudo-generic he.","kz":"Дұрыс жауап second person “you” арқылы беріледі. Third person орнына first/second person қолдану gender bias-ты азайтады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"15. Choose the inclusive alternative using one/one’s: “He might wonder what his response should be.”","options":["One might wonder what one’s response should be.","He might wonder what his response should be.","She might wonder what her response should be.","Man might wonder what mankind’s response should be."],"answers":[0],"ru":"Правильный ответ — “one / one’s”. Эта форма возможна как gender-free alternative.","kz":"Дұрыс жауап — “one / one’s”. Бұл gender-free alternative ретінде қолданыла алады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"16. Choose the inclusive alternative: “When everyone contributes his own ideas, the discussion will be a success.”","options":["When everyone contributes their own ideas, the discussion will be a success.","When everyone contributes his own ideas, the discussion will be a success.","When everyone contributes man’s ideas, the discussion will be a success.","When everyone contributes her own ideas, the discussion will be a success."],"answers":[0],"ru":"Правильный ответ — singular they/their. После “everyone” современный English часто использует “their”.","kz":"Дұрыс жауап — singular they/their. “Everyone” кейін қазіргі English тілінде “their” жиі қолданылады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"17. Choose the inclusive alternative: “Does everybody have his book?”","options":["Does everybody have their book?","Does everybody have his book?","Does everybody have her book?","Does every man have his book?"],"answers":[0],"ru":"Правильный ответ — “their”. Это singular they/their after indefinite pronoun.","kz":"Дұрыс жауап — “their”. Бұл indefinite pronoun кейін қолданылатын singular they/their формасы.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"18. Choose the gender-neutral replacement for “Man’s achievements”.","options":["human achievements","male achievements","mankind’s male achievements","men’s achievements only"],"answers":[0],"ru":"Правильный ответ — “human achievements”. Так сохраняется meaning без pseudo-generic man.","kz":"Дұрыс жауап — “human achievements”. Мағына сақталады, бірақ pseudo-generic man қолданылмайды.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"19. Choose the gender-neutral replacement for “the best man for the job”.","options":["the best person for the job","the best male for the job","the best mankind for the job","the best gentleman for the job"],"answers":[0],"ru":"Правильный ответ — “person”. Должность может выполнять человек любого пола.","kz":"Дұрыс жауап — “person”. Бұл жұмысты кез келген жыныстағы адам атқара алады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"20. Choose the gender-neutral replacement for “the common man”.","options":["ordinary people","common male","mankind man","ordinary men only"],"answers":[0],"ru":"Правильный ответ — “ordinary people”. Эта форма не ограничивает meaning мужским родом.","kz":"Дұрыс жауап — “ordinary people”. Бұл форма мағынаны ер адаммен ғана шектемейді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"21. Choose the gender-neutral replacement for “sportsmanship”.","options":["fair play","manly sport","male behaviour in sport","sportsman quality"],"answers":[0],"ru":"Правильный ответ — “fair play”. Это нейтральная альтернатива без “man”.","kz":"Дұрыс жауап — “fair play”. Бұл “man” элементінсіз бейтарап балама.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"22. Choose the better alternative for the verb phrase “to man the desk”.","options":["to staff the desk","to man the desk","to male the desk","to mankind the desk"],"answers":[0],"ru":"Правильный ответ — “to staff the desk”. Лучше избегать “man” as a verb where possible.","kz":"Дұрыс жауап — “to staff the desk”. Мүмкін болған жерде “man” етістігін қолданбаған дұрыс.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"23. Choose the better alternative for “I’ll have my girl do that job.”","options":["I’ll ask my assistant to do that job.","I’ll have my girl do that job.","I’ll ask my lady to do that job.","I’ll ask the office girl to do that job."],"answers":[0],"ru":"Правильный ответ — “assistant”. “My girl” patronizes/trivializes a woman in professional context.","kz":"Дұрыс жауап — “assistant”. “My girl” кәсіби контексте әйелді төмендетіп көрсетуі мүмкін.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"24. Choose the better inclusive alternative for “You guys, go ahead.”","options":["Everyone, go ahead.","You guys, go ahead.","You men, go ahead.","Mankind, go ahead."],"answers":[0],"ru":"Правильный ответ — “Everyone”. It addresses a mixed group without male-centred wording.","kz":"Дұрыс жауап — “Everyone”. Бұл аралас топқа male-centred wording қолданбай сөйлейді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"25. Choose the inclusive alternative: “Dear Mothers, please bake cookies for our class party.”","options":["Dear families, please bake cookies for our class party.","Dear Mothers, please bake cookies for our class party.","Dear women, please bake cookies for our class party.","Dear housewives, please bake cookies for our class party."],"answers":[0],"ru":"Правильный ответ — “Dear families”. Оно не представляет caregiving as only women’s role.","kz":"Дұрыс жауап — “Dear families”. Бұл caregiving міндетін тек әйелдер рөлі ретінде көрсетпейді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"26. Choose the gender-neutral replacement for “air steward / air stewardess / air hostess”.","options":["flight attendant / cabin attendant","air hostess","air stewardess","air steward only"],"answers":[0],"ru":"Правильный ответ — “flight attendant / cabin attendant”. Это gender-unmarked job title.","kz":"Дұрыс жауап — “flight attendant / cabin attendant”. Бұл gender-unmarked job title.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"27. Choose the gender-neutral replacement for “housewife / househusband”.","options":["homemaker","housewife","househusband","home woman"],"answers":[0],"ru":"Правильный ответ — “homemaker”. Это neutral occupational/social role term.","kz":"Дұрыс жауап — “homemaker”. Бұл бейтарап occupational/social role term.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"28. Choose the gender-neutral replacement for “sportsman / sportswoman”.","options":["athlete","sportsman","sportswoman","male sports person"],"answers":[0],"ru":"Правильный ответ — “athlete”. It names the role without gender marking.","kz":"Дұрыс жауап — “athlete”. Бұл рөлді gender marking қолданбай атайды.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"29. Choose the gender-neutral replacement for “headmaster / headmistress”.","options":["head teacher","headmaster","headmistress","school master"],"answers":[0],"ru":"Правильный ответ — “head teacher”. Это gender-unmarked school role.","kz":"Дұрыс жауап — “head teacher”. Бұл gender-unmarked school role.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"30. Choose the correct relative pronoun for a person: “This is our hostess, ___ wants to know whether she can help.”","options":["who","which","it","that only"],"answers":[0],"ru":"Правильный ответ — “who”. For a person, use “who”.","kz":"Дұрыс жауап — “who”. Адамға қатысты “who” қолданылады.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"31. Choose the correct pronoun for “monk”: “A monk, who gets a tonsure when ___ professes...”","options":["he","it","which","they only"],"answers":[0],"ru":"Правильный ответ — “he”. In this sentence monk is male-coded by the noun.","kz":"Дұрыс жауап — “he”. Бұл сөйлемде monk ер адамды білдіреді.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"},{"type":"single","q":"32. Choose the best inclusive rule from Unit 1 grammar.","options":["Do not represent females and males as possessing stereotyped gendered attributes.","Always imply that girls are timid and boys are brave.","Use masculine nouns as the default.","Admire women mainly for physical attributes."],"answers":[0],"ru":"Правильный ответ — avoid stereotyped gendered attributes. Это conclusion of the grammar section.","kz":"Дұрыс жауап — stereotyped gendered attributes қолданбау. Бұл grammar section қорытындысы.","source":"Textbook-based / POFLIC Unit 1.1 — Gender Bias in English"}]},"unit2":{"title":"Unit 2 Grammar — Conditionals, Wish, Subjunctive, Unreal Past","questions":[{"type":"single","q":"1. If I ___ enough money, I would go on safari to Kenya.","options":["have","had","had had","will have"],"answers":[1],"ru":"Правильный ответ — “had”. Это Second Conditional: If + Past Simple, would + infinitive. Он используется для нереальной или маловероятной ситуации в настоящем.","kz":"Дұрыс жауап — “had”. Бұл Second Conditional құрылымы: If + Past Simple, would + infinitive. Ол қазіргі уақытта шындыққа сай емес немесе мүмкіндігі төмен жағдайды білдіреді.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"2. If I had enough money, I ___ on safari to Kenya.","options":["go","went","would go","had gone"],"answers":[2],"ru":"Правильный ответ — “would go”. Во второй части Second Conditional используется “would + infinitive”.","kz":"Дұрыс жауап — “would go”. Second Conditional сөйлемінің негізгі бөлігінде “would + infinitive” қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"3. If I ___ enough money, I would have gone with them.","options":["have","had","had had","will have"],"answers":[2],"ru":"Правильный ответ — “had had”. Это Third Conditional: If + Past Perfect, would have + Past Participle. Он показывает нереальную ситуацию в прошлом.","kz":"Дұрыс жауап — “had had”. Бұл Third Conditional құрылымы: If + Past Perfect, would have + Past Participle. Ол өткен шақта орындалмаған жағдайды білдіреді.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"4. If I had known you were allergic to chocolate, I ___ you a vanilla cake.","options":["make","made","would make","would have made"],"answers":[3],"ru":"Правильный ответ — “would have made”. Это Third Conditional. В главной части используется “would have + past participle”.","kz":"Дұрыс жауап — “would have made”. Бұл Third Conditional. Негізгі бөлікте “would have + past participle” қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"5. If she ___ with us, she could act as our interpreter.","options":["is","were","had been","will be"],"answers":[1],"ru":"Правильный ответ — “were”. Для нереальной ситуации в настоящем после “if” часто используется “were” для всех лиц.","kz":"Дұрыс жауап — “were”. Қазіргі уақыттағы шындыққа сай емес жағдайларда “if” бөлігінде барлық жақтар үшін “were” жиі қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"6. If Jerry hadn’t stopped to pick up that quarter, he ___ the street when the bus ran the red light.","options":["crosses","crossed","would be crossing","would have been crossing"],"answers":[3],"ru":"Правильный ответ — “would have been crossing”. Здесь говорится о нереальном результате в прошлом, поэтому используется форма “would have been + -ing”.","kz":"Дұрыс жауап — “would have been crossing”. Мұнда өткен шақтағы орындалмаған нәтиже айтылып тұр, сондықтан “would have been + -ing” формасы қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — Conditionals"},{"type":"single","q":"7. I wish I ___ to him yesterday.","options":["talk","talked","had talked","will talk"],"answers":[2],"ru":"Правильный ответ — “had talked”. После “wish” для сожаления о прошлом используется Past Perfect.","kz":"Дұрыс жауап — “had talked”. Өткен шақтағы өкінішті білдіру үшін “wish” сөзінен кейін Past Perfect қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — Wish-structures"},{"type":"single","q":"8. I wish I ___ rich.","options":["am","were","had been","will be"],"answers":[1],"ru":"Правильный ответ — “were”. После “wish” для желания о настоящем используется unreal past form: “I wish I were…”.","kz":"Дұрыс жауап — “were”. Қазіргі жағдайға қатысты арманды білдіру үшін “wish” сөзінен кейін unreal past form қолданылады: “I wish I were…”.","source":"Textbook-based / POFLIC Unit 2.1 — Wish-structures"},{"type":"single","q":"9. If only he ___ hard, he would have passed the exam.","options":["works","worked","had worked","will work"],"answers":[2],"ru":"Правильный ответ — “had worked”. “If only” здесь выражает сожаление о прошлом, поэтому нужен Past Perfect.","kz":"Дұрыс жауап — “had worked”. Бұл жерде “If only” өткен шақтағы өкінішті білдіреді, сондықтан Past Perfect қажет.","source":"Textbook-based / POFLIC Unit 2.1 — Wish-structures"},{"type":"single","q":"10. When I ___ a letter, I usually write back immediately.","options":["get","got","will get","had got"],"answers":[0],"ru":"Правильный ответ — “get”. “When” здесь описывает обычное повторяющееся действие, поэтому используется Present Simple.","kz":"Дұрыс жауап — “get”. Бұл сөйлемде “when” әдеттегі қайталанатын әрекетті білдіреді, сондықтан Present Simple қолданылады.","source":"Textbook-based / POFLIC Unit 2.1 — If / When"},{"type":"single","q":"11. It is important that she ___ her medicine twice a day.","options":["remembers","remember","remembered","will remember"],"answers":[1],"ru":"Правильный ответ — “remember”. После выражений типа “It is important that…” используется subjunctive: глагол в форме bare infinitive без -s.","kz":"Дұрыс жауап — “remember”. “It is important that…” сияқты құрылымдардан кейін subjunctive қолданылады: етістік -s жалғауынсыз, бастапқы түрде келеді.","source":"Textbook-based / POFLIC Unit 2.2 — Subjunctive"},{"type":"single","q":"12. I suggest that Frank ___ the directions carefully.","options":["reads","read","reading","has read"],"answers":[1],"ru":"Правильный ответ — “read”. После “suggest that” используется subjunctive, то есть bare infinitive без окончания -s.","kz":"Дұрыс жауап — “read”. “Suggest that” құрылымынан кейін subjunctive қолданылады, яғни етістік -s жалғауынсыз келеді.","source":"Textbook-based / POFLIC Unit 2.2 — Subjunctive"},{"type":"single","q":"13. Mrs. Finkelstein demanded that the heater ___ immediately.","options":["repairs","repaired","be repaired","repairing"],"answers":[2],"ru":"Правильный ответ — “be repaired”. Это passive subjunctive: be + past participle. Обогреватель должен быть отремонтирован кем-то.","kz":"Дұрыс жауап — “be repaired”. Бұл passive subjunctive: be + past participle. Жылытқышты біреу жөндеуі керек, сондықтан пассив форма қолданылады.","source":"Textbook-based / POFLIC Unit 2.2 — Passive Subjunctive"},{"type":"single","q":"14. It is vital that the United States ___ on improving its public education system.","options":["focuses","focus","focused","will focus"],"answers":[1],"ru":"Правильный ответ — “focus”. После “It is vital that…” используется subjunctive, поэтому глагол стоит без -es.","kz":"Дұрыс жауап — “focus”. “It is vital that…” құрылымынан кейін subjunctive қолданылады, сондықтан етістік -es жалғауынсыз жазылады.","source":"Textbook-based / POFLIC Unit 2.2 — Subjunctive"},{"type":"single","q":"15. The teacher insists that her students ___ on time.","options":["are","were","be","will be"],"answers":[2],"ru":"Правильный ответ — “be”. После “insist that” используется subjunctive. Для глагола “to be” форма subjunctive — “be”.","kz":"Дұрыс жауап — “be”. “Insist that” құрылымынан кейін subjunctive қолданылады. “To be” етістігінің subjunctive формасы — “be”.","source":"Textbook-based / POFLIC Unit 2.2 — Subjunctive"},{"type":"single","q":"16. I suggest that you ___ the job without renegotiating the salary.","options":["not take","do not took","not to take","not taking"],"answers":[0],"ru":"Правильный ответ — “not take”. В отрицательном subjunctive используется структура “not + bare infinitive”.","kz":"Дұрыс жауап — “not take”. Теріс subjunctive формасында “not + bare infinitive” құрылымы қолданылады.","source":"Textbook-based / POFLIC Unit 2.2 — Negative Subjunctive"},{"type":"single","q":"17. Jake recommended that Susan ___ immediately.","options":["hired","is hired","be hired","hiring"],"answers":[2],"ru":"Правильный ответ — “be hired”. После “recommended that” в passive subjunctive используется “be + past participle”.","kz":"Дұрыс жауап — “be hired”. “Recommended that” құрылымынан кейін passive subjunctive түрінде “be + past participle” қолданылады.","source":"Textbook-based / POFLIC Unit 2.2 — Passive Subjunctive"},{"type":"single","q":"18. It is imperative that the world ___ towards a solution to global warming.","options":["works","work","worked","will work"],"answers":[1],"ru":"Правильный ответ — “work”. После “It is imperative that…” используется subjunctive: глагол в начальной форме без -s.","kz":"Дұрыс жауап — “work”. “It is imperative that…” құрылымынан кейін subjunctive қолданылады: етістік бастапқы формада, -s жалғауынсыз келеді.","source":"Textbook-based / POFLIC Unit 2.2 — Subjunctive"},{"type":"single","q":"19. It’s high time we ___.","options":["leave","left","will leave","have left"],"answers":[1],"ru":"Правильный ответ — “left”. После “It’s high time” используется Past Simple, хотя значение относится к настоящему или ближайшему будущему.","kz":"Дұрыс жауап — “left”. “It’s high time” құрылымынан кейін Past Simple қолданылады, бірақ мағынасы қазіргі уақытқа немесе жақын болашаққа қатысты болады.","source":"Textbook-based / POFLIC Unit 2.3 — Unreal Past"},{"type":"single","q":"20. If only we ___ a phone!","options":["have","had","had had","will have"],"answers":[1],"ru":"Правильный ответ — “had”. “If only” для желания или сожаления о настоящем требует Past Simple.","kz":"Дұрыс жауап — “had”. Қазіргі уақытқа қатысты тілек немесе өкінішті білдіру үшін “If only” кейін Past Simple қолданылады.","source":"Textbook-based / POFLIC Unit 2.3 — Unreal Past"},{"type":"single","q":"21. He walks as if he ___ a wooden leg.","options":["has","had","has had","will have"],"answers":[1],"ru":"Правильный ответ — “had”. После “as if” для нереальной ситуации используется Past Simple.","kz":"Дұрыс жауап — “had”. “As if” кейін шындыққа сай емес жағдай айтылса, Past Simple қолданылады.","source":"Textbook-based / POFLIC Unit 2.3 — Forms Expressing Unreality"},{"type":"single","q":"22. I wish I ___ what is wrong with my car.","options":["know","knew","had known","will know"],"answers":[1],"ru":"Правильный ответ — “knew”. Желание о настоящем после “wish” выражается через Past Simple.","kz":"Дұрыс жауап — “knew”. Қазіргі жағдайға қатысты тілек “wish” сөзінен кейін Past Simple арқылы беріледі.","source":"Textbook-based / POFLIC Unit 2.3 — Wish / Unreal Past"},{"type":"single","q":"23. I wish I ___ the fishmonger to clean these fish.","options":["ask","asked","had asked","will ask"],"answers":[2],"ru":"Правильный ответ — “had asked”. Это сожаление о прошлом, поэтому после “wish” используется Past Perfect.","kz":"Дұрыс жауап — “had asked”. Бұл өткен шақтағы өкініш, сондықтан “wish” сөзінен кейін Past Perfect қолданылады.","source":"Textbook-based / POFLIC Unit 2.3 — Wish for Past Situations"},{"type":"single","q":"24. It’s time we ___ something to stop road accidents.","options":["do","did","have done","will do"],"answers":[1],"ru":"Правильный ответ — “did”. После “It’s time” используется Past Simple для значения “уже пора сделать что-то”.","kz":"Дұрыс жауап — “did”. “It’s time” құрылымынан кейін Past Simple қолданылады, мағынасы “бір нәрсені істеудің уақыты келді” дегенді білдіреді.","source":"Textbook-based / POFLIC Unit 2.3 — Unreal Past"},{"type":"single","q":"25. He treats us as if we ___ all idiots.","options":["are","were","had been","will be"],"answers":[1],"ru":"Правильный ответ — “were”. После “as if” для нереального сравнения используется Past Simple / were.","kz":"Дұрыс жауап — “were”. “As if” кейін шындыққа сай емес салыстыру айтылғанда Past Simple немесе “were” қолданылады.","source":"Textbook-based / POFLIC Unit 2.3 — As if / Unreal Past"},{"type":"single","q":"26. I’d rather you ___ the other umbrella.","options":["take","took","had taken","taking"],"answers":[1],"ru":"Правильный ответ — “took”. После “would rather + subject” используется Past Simple, когда говорящий хочет, чтобы другой человек сделал что-то.","kz":"Дұрыс жауап — “took”. “Would rather + subject” құрылымынан кейін Past Simple қолданылады, егер сөйлеуші басқа адамның бір әрекет жасағанын қаласа.","source":"Textbook-based / POFLIC Unit 2.3 — Would rather"},{"type":"single","q":"27. If I were free tomorrow, I ___ to a concert.","options":["would go","will go","went","had gone"],"answers":[0],"ru":"Правильный ответ — “would go”. Это second conditional: If + Past Simple/were, would + infinitive.","kz":"Дұрыс жауап — “would go”. Бұл second conditional: If + Past Simple/were, would + infinitive.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"28. If we knew English better, we ___ authentic English books.","options":["would read","will read","read","had read"],"answers":[0],"ru":"Правильный ответ — “would read”. Нереальная present condition требует would + infinitive.","kz":"Дұрыс жауап — “would read”. Шындыққа сай емес present condition үшін would + infinitive керек.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"29. If a child were playing with matches, its parents ___ displeased.","options":["would be","will be","were","had been"],"answers":[0],"ru":"Правильный ответ — “would be”. Это consequence in second conditional.","kz":"Дұрыс жауап — “would be”. Бұл second conditional consequence бөлігі.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"30. If I had been free last night, I ___ to a concert.","options":["would have gone","would go","went","had gone"],"answers":[0],"ru":"Правильный ответ — “would have gone”. Это third conditional consequence: would have + V3.","kz":"Дұрыс жауап — “would have gone”. Бұл third conditional consequence: would have + V3.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"31. If you had been working the whole evening yesterday, I ___ for you all the time.","options":["would not have been waiting","would not wait","did not wait","will not wait"],"answers":[0],"ru":"Правильный ответ — “would not have been waiting”. Past unreal continuous result uses would have been + -ing.","kz":"Дұрыс жауап — “would not have been waiting”. Past unreal continuous result үшін would have been + -ing қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"32. If I liked your suggestion, I ___ it.","options":["would accept","will accept","accepted","had accepted"],"answers":[0],"ru":"Правильный ответ — “would accept”. This is a present unreal condition.","kz":"Дұрыс жауап — “would accept”. Бұл present unreal condition.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"33. If I had liked your suggestion then, I ___ it.","options":["would have accepted","would accept","accepted","will accept"],"answers":[0],"ru":"Правильный ответ — “would have accepted”. Past unreal condition requires would have + V3.","kz":"Дұрыс жауап — “would have accepted”. Past unreal condition үшін would have + V3 керек.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"34. It was necessary that he ___ the case.","options":["report","reports","reported","will report"],"answers":[0],"ru":"Правильный ответ — “report”. Subjunctive uses the plain stem/bare infinitive.","kz":"Дұрыс жауап — “report”. Subjunctive plain stem/bare infinitive қолданады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"35. It is advisable that you ___ the instructions carefully.","options":["read","reads","reading","will read"],"answers":[0],"ru":"Правильный ответ — “read”. After “It is advisable that”, use subjunctive bare infinitive.","kz":"Дұрыс жауап — “read”. “It is advisable that” кейін subjunctive bare infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"36. They demanded that she ___ the trip.","options":["postpone","postpones","postponed","will postpone"],"answers":[0],"ru":"Правильный ответ — “postpone”. After “demanded that”, the subjunctive verb has no -s/-ed.","kz":"Дұрыс жауап — “postpone”. “Demanded that” кейін subjunctive етістік -s/-ed алмайды.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"37. Dr. Smith asked that Mark ___ his research paper before the end of the month.","options":["submit","submits","submitted","will submit"],"answers":[0],"ru":"Правильный ответ — “submit”. This is a verb followed by the subjunctive.","kz":"Дұрыс жауап — “submit”. Бұл subjunctive талап ететін verb pattern.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"38. Choose the subjunctive trigger.","options":["It is crucial that","Because of","In spite of","As soon as"],"answers":[0],"ru":"Правильный ответ — “It is crucial that”. Such expressions are followed by subjunctive.","kz":"Дұрыс жауап — “It is crucial that”. Мұндай expressions кейін subjunctive қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"39. Choose the verb followed by the subjunctive.","options":["insist that","listen to","depend on","look after"],"answers":[0],"ru":"Правильный ответ — “insist that”. It can introduce a subjunctive clause.","kz":"Дұрыс жауап — “insist that”. Ол subjunctive clause енгізе алады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"40. I wish it ___ Sunday.","options":["were","is","will be","has been"],"answers":[0],"ru":"Правильный ответ — “were”. Wish about present unreality uses were/Past Simple.","kz":"Дұрыс жауап — “were”. Present unreality туралы wish үшін were/Past Simple қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"41. He looked as if he ___ about it.","options":["knew","knows","will know","has known"],"answers":[0],"ru":"Правильный ответ — “knew”. After as if for unreality, Past Simple may be used.","kz":"Дұрыс жауап — “knew”. Unreal meaning үшін as if кейін Past Simple қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"42. He looked as if he ___ a ghost.","options":["had seen","saw","sees","will see"],"answers":[0],"ru":"Правильный ответ — “had seen”. Past Perfect expresses earlier unreality after as if.","kz":"Дұрыс жауап — “had seen”. As if кейін earlier unreality үшін Past Perfect қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"43. If I had a garden, I ___ tulips.","options":["would grow","will grow","grew","had grown"],"answers":[0],"ru":"Правильный ответ — “would grow”. Present unreal condition uses would + infinitive.","kz":"Дұрыс жауап — “would grow”. Present unreal condition үшін would + infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"44. If he had a garden, he ___ tulips.","options":["would grow","will grow","grew","had grown"],"answers":[0],"ru":"Правильный ответ — “would grow”. The consequence of unreal present condition uses would.","kz":"Дұрыс жауап — “would grow”. Unreal present condition consequence бөлігі would қолданады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"45. If I had had a garden then, I ___ tulips.","options":["would have grown","would grow","grew","will grow"],"answers":[0],"ru":"Правильный ответ — “would have grown”. Past unreal condition needs would have + V3.","kz":"Дұрыс жауап — “would have grown”. Past unreal condition үшін would have + V3 керек.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"46. I’d rather you ___ here now.","options":["were","are","will be","had been"],"answers":[0],"ru":"Правильный ответ — “were”. Would rather + subject uses unreal past for present preference.","kz":"Дұрыс жауап — “were”. Would rather + subject present preference үшін unreal past қолданады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"47. It is essential that every applicant ___ the form.","options":["complete","completes","completed","will complete"],"answers":[0],"ru":"Правильный ответ — “complete”. Subjunctive uses the base form even after singular subject.","kz":"Дұрыс жауап — “complete”. Subjunctive singular subject кейін де base form қолданады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"48. The committee recommended that the proposal ___ accepted.","options":["be","is","was","will be"],"answers":[0],"ru":"Правильный ответ — “be”. Passive subjunctive uses be + past participle.","kz":"Дұрыс жауап — “be”. Passive subjunctive: be + past participle.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"49. She proposed that he ___ the money from the bank.","options":["borrow","borrows","borrowed","will borrow"],"answers":[0],"ru":"Правильный ответ — “borrow”. The plain stem is used in subjunctive clauses.","kz":"Дұрыс жауап — “borrow”. Subjunctive clauses ішінде plain stem қолданылады.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"},{"type":"single","q":"50. Choose the structure expressing unreality.","options":["Past Perfect after as if","Present Simple after because","Future Simple after when","Imperative after and"],"answers":[0],"ru":"Правильный ответ — Past Perfect after as if. It can express unreal earlier situation.","kz":"Дұрыс жауап — Past Perfect after as if. Бұл unreal earlier situation білдіреді.","source":"Textbook-based / POFLIC Unit 2.1–2.3 — Conditionals, Subjunctive, Unreal Past"}]},"unit3":{"title":"Unit 3 Grammar — Gerund, Infinitive and Present Participle","questions":[{"type":"single","q":"1. After a time I got used to ___ alone.","options":["live","living","to live","lived"],"answers":[1],"ru":"Правильный ответ — “living”. После выражения “get used to” используется gerund, потому что “to” здесь является предлогом, а после предлогов нужен -ing form.","kz":"Дұрыс жауап — “living”. “Get used to” тіркесінен кейін gerund қолданылады, себебі бұл жерде “to” предлог қызметін атқарады. Ал предлогтан кейін етістік -ing формасында келеді.","source":"Textbook-based / POFLIC Unit 3.1 — Gerund"},{"type":"single","q":"2. I meant ___ an evening paper.","options":["buy","buying","to buy","bought"],"answers":[2],"ru":"Правильный ответ — “to buy”. “Mean to do something” означает намереваться что-то сделать, поэтому нужен infinitive.","kz":"Дұрыс жауап — “to buy”. “Mean to do something” бір нәрсені істеуге ниеттену деген мағынаны білдіреді, сондықтан infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3.1 — Infinitive"},{"type":"single","q":"3. I didn’t see anyone ___ newspapers.","options":["sell","to sell","sold","sells"],"answers":[0],"ru":"Правильный ответ — “sell”. После verbs of perception, например “see”, можно использовать bare infinitive: see someone do something.","kz":"Дұрыс жауап — “sell”. “See” сияқты қабылдау етістіктерінен кейін bare infinitive қолданыла алады: see someone do something.","source":"Textbook-based / POFLIC Unit 3.1 — Bare Infinitive after Verbs of Perception"},{"type":"single","q":"4. I want ___ the 7 a.m. train.","options":["catch","catching","to catch","caught"],"answers":[2],"ru":"Правильный ответ — “to catch”. После глагола “want” используется to-infinitive: want to do something.","kz":"Дұрыс жауап — “to catch”. “Want” етістігінен кейін to-infinitive қолданылады: want to do something.","source":"Textbook-based / POFLIC Unit 3.1 — Infinitive after Want"},{"type":"single","q":"5. That means ___ up at 6.00.","options":["get","getting","to get","got"],"answers":[1],"ru":"Правильный ответ — “getting”. Когда “mean” означает “означать / подразумевать”, после него используется gerund.","kz":"Дұрыс жауап — “getting”. “Mean” етістігі “білдіру / қажет ету” мағынасында қолданылса, одан кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3.1 — Mean + Gerund"},{"type":"single","q":"6. He was afraid ___ his job.","options":["lose","losing","to lose","lost"],"answers":[2],"ru":"Правильный ответ — “to lose”. “Afraid to do something” используется, когда человек боится совершить действие или столкнуться с возможным результатом.","kz":"Дұрыс жауап — “to lose”. “Afraid to do something” адам бір әрекетті істеуге немесе белгілі бір нәтижеге тап болуға қорыққанда қолданылады.","source":"Textbook-based / POFLIC Unit 3.1 — Afraid + Infinitive"},{"type":"single","q":"7. He was afraid of ___ his job.","options":["lose","losing","to lose","lost"],"answers":[1],"ru":"Правильный ответ — “losing”. После предлога “of” всегда используется gerund, поэтому правильно “afraid of losing”.","kz":"Дұрыс жауап — “losing”. “Of” предлогынан кейін әрқашан gerund қолданылады, сондықтан дұрыс нұсқа — “afraid of losing”.","source":"Textbook-based / POFLIC Unit 3.1 — Gerund after Prepositions"},{"type":"single","q":"8. She remembers ___ to school for the first time.","options":["go","going","to go","gone"],"answers":[1],"ru":"Правильный ответ — “going”. “Remember doing” означает помнить действие, которое уже произошло в прошлом.","kz":"Дұрыс жауап — “going”. “Remember doing” бұрын болған әрекетті есте сақтау дегенді білдіреді.","source":"Textbook-based / POFLIC Unit 3.2 — Remember + Gerund"},{"type":"single","q":"9. Did you remember ___ the car?","options":["lock","locking","to lock","locked"],"answers":[2],"ru":"Правильный ответ — “to lock”. “Remember to do” означает не забыть выполнить действие.","kz":"Дұрыс жауап — “to lock”. “Remember to do” әрекетті орындауды ұмытпау деген мағынаны білдіреді.","source":"Textbook-based / POFLIC Unit 3.2 — Remember + Infinitive"},{"type":"single","q":"10. I was afraid of ___ blown to pieces.","options":["be","being","to be","been"],"answers":[1],"ru":"Правильный ответ — “being”. После “afraid of” используется gerund. Так как значение пассивное, нужна форма “being + past participle”: being blown.","kz":"Дұрыс жауап — “being”. “Afraid of” тіркесінен кейін gerund қолданылады. Мағына пассив болғандықтан, “being + past participle” формасы керек: being blown.","source":"Textbook-based / POFLIC Unit 3.2 — Passive Gerund"},{"type":"single","q":"11. Remember ___ the agent for clear directions.","options":["ask","asking","to ask","asked"],"answers":[2],"ru":"Правильный ответ — “to ask”. Здесь речь о будущем действии, которое нужно не забыть выполнить, поэтому используется “remember to ask”.","kz":"Дұрыс жауап — “to ask”. Бұл жерде болашақта орындалуы керек әрекет туралы айтылып тұр, сондықтан “remember to ask” қолданылады.","source":"Textbook-based / POFLIC Unit 3.2 — Remember + Infinitive"},{"type":"single","q":"12. I wasted hours ___ for the last house.","options":["look","looking","to look","looked"],"answers":[1],"ru":"Правильный ответ — “looking”. После выражений “waste time / waste hours” используется gerund.","kz":"Дұрыс жауап — “looking”. “Waste time / waste hours” тіркестерінен кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3.2 — Waste Time + Gerund"},{"type":"single","q":"13. Let’s ___ for a swim.","options":["go","going","to go","gone"],"answers":[0],"ru":"Правильный ответ — “go”. После “Let’s” используется bare infinitive, то есть глагол без “to”.","kz":"Дұрыс жауап — “go”. “Let’s” құрылымынан кейін bare infinitive қолданылады, яғни етістік “to” сөзінсіз келеді.","source":"Textbook-based / POFLIC Unit 3.2 — Bare Infinitive after Let’s"},{"type":"single","q":"14. I’m not particularly keen on ___.","options":["swim","swimming","to swim","swam"],"answers":[1],"ru":"Правильный ответ — “swimming”. После предлога “on” используется gerund.","kz":"Дұрыс жауап — “swimming”. “On” предлогынан кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3.2 — Gerund after Prepositions"},{"type":"single","q":"15. They decided ___ anywhere.","options":["not go","not going","not to go","not gone"],"answers":[2],"ru":"Правильный ответ — “not to go”. После “decide” используется infinitive. Отрицательная форма infinitive — “not to + verb”.","kz":"Дұрыс жауап — “not to go”. “Decide” етістігінен кейін infinitive қолданылады. Infinitive-тің теріс формасы — “not to + verb”.","source":"Textbook-based / POFLIC Unit 3.2 — Decide + Infinitive"},{"type":"single","q":"16. The lecturer began by ___ us where the island was.","options":["tell","telling","to tell","told"],"answers":[1],"ru":"Правильный ответ — “telling”. После предлога “by” используется gerund.","kz":"Дұрыс жауап — “telling”. “By” предлогынан кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3.3 — Gerund after By"},{"type":"single","q":"17. My father thinks I am not capable of ___ my own living.","options":["earn","earning","to earn","earned"],"answers":[1],"ru":"Правильный ответ — “earning”. После выражения “capable of” используется gerund, потому что “of” — предлог.","kz":"Дұрыс жауап — “earning”. “Capable of” тіркесінен кейін gerund қолданылады, себебі “of” — предлог.","source":"Textbook-based / POFLIC Unit 3.3 — Capable of + Gerund"},{"type":"single","q":"18. I mean ___ him that he is wrong.","options":["show","showing","to show","showed"],"answers":[2],"ru":"Правильный ответ — “to show”. “Mean to do” означает намереваться сделать что-то.","kz":"Дұрыс жауап — “to show”. “Mean to do” бір нәрсені істеуге ниеттену деген мағынаны білдіреді.","source":"Textbook-based / POFLIC Unit 3.3 — Mean + Infinitive"},{"type":"single","q":"19. Have you tried ___ the radiator with hot water?","options":["fill","filling","to fill","filled"],"answers":[1],"ru":"Правильный ответ — “filling”. “Try doing” означает попробовать какой-то способ решения проблемы.","kz":"Дұрыс жауап — “filling”. “Try doing” мәселені шешудің бір тәсілін байқап көру дегенді білдіреді.","source":"Textbook-based / POFLIC Unit 3.3 — Try + Gerund"},{"type":"single","q":"20. He isn’t strong enough ___ it.","options":["move","moving","to move","moved"],"answers":[2],"ru":"Правильный ответ — “to move”. После “adjective + enough” обычно используется infinitive: strong enough to move.","kz":"Дұрыс жауап — “to move”. “Adjective + enough” құрылымынан кейін әдетте infinitive қолданылады: strong enough to move.","source":"Textbook-based / POFLIC Unit 3.3 — Enough + Infinitive"},{"type":"single","q":"21. ___ is good exercise.","options":["Swimming","Swim","To swimming","Swum"],"answers":[0],"ru":"Правильный ответ — “Swimming”. Gerund can function as the subject of a sentence.","kz":"Дұрыс жауап — “Swimming”. Gerund сөйлемде subject қызметін атқара алады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"22. She is interested in ___ abroad.","options":["studying","study","to study","studied"],"answers":[0],"ru":"Правильный ответ — “studying”. After the preposition “in”, use gerund.","kz":"Дұрыс жауап — “studying”. “In” предлогынан кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"23. He apologized for ___ late.","options":["being","be","to be","been"],"answers":[0],"ru":"Правильный ответ — “being”. After “for”, the verb takes -ing form.","kz":"Дұрыс жауап — “being”. “For” кейін етістік -ing формасында келеді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"24. She avoided ___ the question.","options":["answering","answer","to answer","answered"],"answers":[0],"ru":"Правильный ответ — “answering”. The verb “avoid” is followed by a gerund.","kz":"Дұрыс жауап — “answering”. “Avoid” етістігінен кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"25. They agreed ___ the project.","options":["to support","supporting","support","supported"],"answers":[0],"ru":"Правильный ответ — “to support”. “Agree” is followed by to-infinitive.","kz":"Дұрыс жауап — “to support”. “Agree” кейін to-infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"26. She made me ___ the report again.","options":["rewrite","to rewrite","rewriting","rewritten"],"answers":[0],"ru":"Правильный ответ — “rewrite”. After “make someone”, use bare infinitive.","kz":"Дұрыс жауап — “rewrite”. “Make someone” кейін bare infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"27. I heard him ___ the door.","options":["open","to open","opened","opening only"],"answers":[0],"ru":"Правильный ответ — “open”. Verbs of perception can be followed by bare infinitive for a complete action.","kz":"Дұрыс жауап — “open”. Verbs of perception complete action үшін bare infinitive қабылдайды.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"28. I heard him ___ the piano when I entered.","options":["playing","play only","to play","played"],"answers":[0],"ru":"Правильный ответ — “playing”. Present participle shows an action in progress.","kz":"Дұрыс жауап — “playing”. Present participle action in progress білдіреді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"29. The problem is too difficult ___ quickly.","options":["to solve","solving","solve","solved"],"answers":[0],"ru":"Правильный ответ — “to solve”. Too + adjective is usually followed by infinitive.","kz":"Дұрыс жауап — “to solve”. Too + adjective кейін infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"30. She is old enough ___ alone.","options":["to travel","travelling","travel","travelled"],"answers":[0],"ru":"Правильный ответ — “to travel”. Enough + adjective/adverb is followed by infinitive.","kz":"Дұрыс жауап — “to travel”. Enough + adjective/adverb кейін infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"31. ___ by the news, he called his parents.","options":["Shocked","Shocking","To shock","Shock"],"answers":[0],"ru":"Правильный ответ — “Shocked”. Past participle phrase shows the person was affected.","kz":"Дұрыс жауап — “Shocked”. Past participle phrase адамның әсерленгенін көрсетеді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"32. ___ loudly, the students entered the room.","options":["Talking","Talk","To talk","Talked"],"answers":[0],"ru":"Правильный ответ — “Talking”. Present participle phrase describes a simultaneous action.","kz":"Дұрыс жауап — “Talking”. Present participle phrase simultaneous action сипаттайды.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"33. I regret ___ him the truth.","options":["telling","to tell","tell","told"],"answers":[0],"ru":"Правильный ответ — “telling”. “Regret doing” means regret about something already done.","kz":"Дұрыс жауап — “telling”. “Regret doing” бұрын болған нәрсеге өкінуді білдіреді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"34. We regret ___ you that your application was unsuccessful.","options":["to inform","informing","inform","informed"],"answers":[0],"ru":"Правильный ответ — “to inform”. “Regret to inform” introduces bad news now.","kz":"Дұрыс жауап — “to inform”. “Regret to inform” қазір жағымсыз хабар жеткізу үшін қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"35. Stop ___ noise, please.","options":["making","to make","make","made"],"answers":[0],"ru":"Правильный ответ — “making”. “Stop doing” means end the activity.","kz":"Дұрыс жауап — “making”. “Stop doing” әрекетті тоқтатуды білдіреді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"36. We stopped ___ some coffee.","options":["to have","having","have","had"],"answers":[0],"ru":"Правильный ответ — “to have”. “Stop to do” means stop one action in order to do another.","kz":"Дұрыс жауап — “to have”. “Stop to do” басқа әрекетті орындау үшін тоқтауды білдіреді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"37. I am used to ___ early.","options":["getting up","get up","to get up","got up"],"answers":[0],"ru":"Правильный ответ — “getting up”. Be used to + gerund/noun.","kz":"Дұрыс жауап — “getting up”. Be used to + gerund/noun.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"38. I used ___ early when I was at school.","options":["to get up","getting up","get up","got up"],"answers":[0],"ru":"Правильный ответ — “to get up”. Used to + infinitive describes past habit.","kz":"Дұрыс жауап — “to get up”. Used to + infinitive өткен әдетті білдіреді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"39. He suggested ___ a break.","options":["taking","to take","take","taken"],"answers":[0],"ru":"Правильный ответ — “taking”. Suggest is followed by gerund.","kz":"Дұрыс жауап — “taking”. Suggest кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"40. She promised ___ on time.","options":["to come","coming","come","came"],"answers":[0],"ru":"Правильный ответ — “to come”. Promise is followed by to-infinitive.","kz":"Дұрыс жауап — “to come”. Promise кейін to-infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"41. A sleeping child should not be disturbed. “Sleeping” is a:","options":["present participle used as an adjective","gerund used as an object","bare infinitive","passive infinitive"],"answers":[0],"ru":"Правильный ответ — present participle used as an adjective. It modifies “child”.","kz":"Дұрыс жауап — present participle used as an adjective. Ол “child” сөзін анықтайды.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"42. I am looking forward to ___ you.","options":["seeing","see","to see","seen"],"answers":[0],"ru":"Правильный ответ — “seeing”. In “look forward to”, “to” is a preposition, so gerund follows.","kz":"Дұрыс жауап — “seeing”. “Look forward to” ішінде “to” предлог, сондықтан gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"43. She was allowed ___ early.","options":["to leave","leave","leaving","left"],"answers":[0],"ru":"Правильный ответ — “to leave”. Passive form of allow is followed by to-infinitive.","kz":"Дұрыс жауап — “to leave”. Allow passive form кейін to-infinitive келеді.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"44. Let him ___ the answer himself.","options":["find","to find","finding","found"],"answers":[0],"ru":"Правильный ответ — “find”. After “let + object”, use bare infinitive.","kz":"Дұрыс жауап — “find”. “Let + object” кейін bare infinitive қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"},{"type":"single","q":"45. He went home without ___ goodbye.","options":["saying","say","to say","said"],"answers":[0],"ru":"Правильный ответ — “saying”. After “without”, use gerund.","kz":"Дұрыс жауап — “saying”. “Without” кейін gerund қолданылады.","source":"Textbook-based / POFLIC Unit 3 — Gerund, Infinitive and Present Participle"}]},"unit4":{"title":"Unit 4 Grammar — Phrases, Clauses and Purpose Clauses","questions":[{"type":"single","q":"1. “By the lake” is a:","options":["prepositional phrase","appositive phrase","gerund phrase","infinitive phrase"],"answers":[0],"ru":"Правильный ответ — “prepositional phrase”. Фраза начинается с предлога “by”, поэтому это prepositional phrase.","kz":"Дұрыс жауап — “prepositional phrase”. Бұл тіркес “by” предлогынан басталады, сондықтан ол prepositional phrase болып табылады.","source":"Textbook-based / POFLIC Unit 4.1 — Types of Phrases"},{"type":"single","q":"2. “Lou, a Viking, enjoys plunder.” The phrase “a Viking” is:","options":["appositive","adverbial phrase","infinitive phrase","clause of result"],"answers":[0],"ru":"Правильный ответ — “appositive”. “A Viking” уточняет и переименовывает существительное “Lou”.","kz":"Дұрыс жауап — “appositive”. “A Viking” тіркесі “Lou” зат есімін нақтылап, қайта атайды.","source":"Textbook-based / POFLIC Unit 4.1 — Appositive Phrase"},{"type":"single","q":"3. “Eating slowly, the child was finally quiet” contains a:","options":["participle phrase","conditional clause","passive structure","reported speech"],"answers":[0],"ru":"Правильный ответ — “participle phrase”. “Eating slowly” — participle phrase, который описывает действие ребёнка.","kz":"Дұрыс жауап — “participle phrase”. “Eating slowly” — participle phrase, ол баланың әрекетін сипаттайды.","source":"Textbook-based / POFLIC Unit 4.1 — Participle Phrase"},{"type":"single","q":"4. “Partying hearty requires great endurance” contains a:","options":["gerund phrase","appositive phrase","result clause","passive voice"],"answers":[0],"ru":"Правильный ответ — “gerund phrase”. “Partying hearty” выполняет функцию существительного, поэтому это gerund phrase.","kz":"Дұрыс жауап — “gerund phrase”. “Partying hearty” сөйлемде зат есім қызметін атқарады, сондықтан ол gerund phrase болып табылады.","source":"Textbook-based / POFLIC Unit 4.1 — Gerund Phrase"},{"type":"single","q":"5. “To sleep late on Sunday is a real treat” contains a:","options":["infinitive phrase","passive construction","comparative clause","reported speech"],"answers":[0],"ru":"Правильный ответ — “infinitive phrase”. “To sleep late on Sunday” начинается с infinitive и выполняет функцию subject.","kz":"Дұрыс жауап — “infinitive phrase”. “To sleep late on Sunday” infinitive арқылы басталып, сөйлемде бастауыш қызметін атқарады.","source":"Textbook-based / POFLIC Unit 4.1 — Infinitive Phrase"},{"type":"single","q":"6. “After visiting Barcelona, the circus moved on to Madrid” expresses:","options":["time","reason","result","comparison"],"answers":[0],"ru":"Правильный ответ — “time”. “After visiting Barcelona” показывает, когда произошло действие.","kz":"Дұрыс жауап — “time”. “After visiting Barcelona” әрекеттің қашан болғанын көрсетеді.","source":"Textbook-based / POFLIC Unit 4.2 — Temporal Clauses"},{"type":"single","q":"7. “We had no electricity, so we had to use candles” expresses:","options":["result","place","concession","comparison"],"answers":[0],"ru":"Правильный ответ — “result”. Союз “so” показывает результат: электричества не было, поэтому пришлось использовать свечи.","kz":"Дұрыс жауап — “result”. “So” жалғаулығы нәтижені көрсетеді: электр жарығы болмағандықтан, шам қолдануға тура келді.","source":"Textbook-based / POFLIC Unit 4.2 — Result Clauses"},{"type":"single","q":"8. “As long as you’re over 18, you can join the army” expresses:","options":["condition","result","place","comparison"],"answers":[0],"ru":"Правильный ответ — “condition”. “As long as” вводит условие: можно вступить в армию при условии, что человеку больше 18.","kz":"Дұрыс жауап — “condition”. “As long as” шартты білдіреді: адам 18 жастан асса ғана әскерге қосыла алады.","source":"Textbook-based / POFLIC Unit 4.2 — Conditional Clauses"},{"type":"single","q":"9. “As he doesn’t drive, David always travels by train” expresses:","options":["reason","condition","concession","place"],"answers":[0],"ru":"Правильный ответ — “reason”. Здесь “as” означает “because” и объясняет причину.","kz":"Дұрыс жауап — “reason”. Бұл жерде “as” “because” мағынасында қолданылып, себепті түсіндіреді.","source":"Textbook-based / POFLIC Unit 4.2 — Reason Clauses"},{"type":"single","q":"10. “Even though he worked hard, he failed the final exam” expresses:","options":["concession","result","place","purpose"],"answers":[0],"ru":"Правильный ответ — “concession”. “Even though” показывает уступку: несмотря на то, что он много работал, он провалил экзамен.","kz":"Дұрыс жауап — “concession”. “Even though” қарсылықты білдіреді: ол көп еңбектенсе де, емтиханнан өте алмады.","source":"Textbook-based / POFLIC Unit 4.2 — Concessive Clauses"},{"type":"single","q":"11. David went out ___ a bottle of wine.","options":["buying","to buy","bought","buy"],"answers":[1],"ru":"Правильный ответ — “to buy”. “To + infinitive” выражает цель действия: он вышел, чтобы купить бутылку вина.","kz":"Дұрыс жауап — “to buy”. “To + infinitive” әрекеттің мақсатын білдіреді: ол шарап сатып алу үшін шықты.","source":"Textbook-based / POFLIC Unit 4.3 — Clauses of Purpose"},{"type":"single","q":"12. We stayed late ___ finish the project.","options":["in order to","because","although","after"],"answers":[0],"ru":"Правильный ответ — “in order to”. Эта структура используется для выражения цели: мы остались поздно, чтобы закончить проект.","kz":"Дұрыс жауап — “in order to”. Бұл құрылым мақсатты білдіру үшін қолданылады: біз жобаны аяқтау үшін кешке дейін қалдық.","source":"Textbook-based / POFLIC Unit 4.3 — In order to"},{"type":"single","q":"13. Here’s my number so that you ___ call me.","options":["can","could have","had","were"],"answers":[0],"ru":"Правильный ответ — “can”. Для цели в настоящем или будущем используется “so that + can/will”.","kz":"Дұрыс жауап — “can”. Қазіргі немесе болашақ мақсатты білдіру үшін “so that + can/will” қолданылады.","source":"Textbook-based / POFLIC Unit 4.3 — So that + can/will"},{"type":"single","q":"14. We left early so that we ___ park close to the stadium.","options":["can","could","will","have"],"answers":[1],"ru":"Правильный ответ — “could”. Для цели в прошлом используется “so that + could/would”.","kz":"Дұрыс жауап — “could”. Өткен шақтағы мақсатты білдіру үшін “so that + could/would” қолданылады.","source":"Textbook-based / POFLIC Unit 4.3 — So that + could/would"},{"type":"single","q":"15. Take your hat in case it ___ too hot.","options":["gets","got","had got","will got"],"answers":[0],"ru":"Правильный ответ — “gets”. После “in case” для настоящего или будущего значения обычно используется present tense.","kz":"Дұрыс жауап — “gets”. “In case” кейін қазіргі немесе болашақ мағынада әдетте present tense қолданылады.","source":"Textbook-based / POFLIC Unit 4.3 — In case + Present"},{"type":"single","q":"16. We took an umbrella in case it ___.","options":["rains","rained","has rained","will rain"],"answers":[1],"ru":"Правильный ответ — “rained”. Для past reference после “in case” используется past tense.","kz":"Дұрыс жауап — “rained”. Өткен шақтағы мағына үшін “in case” кейін past tense қолданылады.","source":"Textbook-based / POFLIC Unit 4.3 — In case + Past"},{"type":"single","q":"17. This function is for ___ humidity.","options":["reduce","reducing","to reduce","reduced"],"answers":[1],"ru":"Правильный ответ — “reducing”. “For + -ing” используется для выражения функции или назначения предмета.","kz":"Дұрыс жауап — “reducing”. “For + -ing” заттың қызметін немесе не үшін қолданылатынын білдіреді.","source":"Textbook-based / POFLIC Unit 4.3 — For + -ing"},{"type":"single","q":"18. We walked quietly so as not ___ the children.","options":["wake","waking","to wake","woke"],"answers":[2],"ru":"Правильный ответ — “to wake”. После “so as not” используется “to + infinitive”: so as not to wake.","kz":"Дұрыс жауап — “to wake”. “So as not” құрылымынан кейін “to + infinitive” қолданылады: so as not to wake.","source":"Textbook-based / POFLIC Unit 4.3 — So as not to"},{"type":"single","q":"19. “With red gills” in “She has a fish with red gills” is an:","options":["adjectival prepositional phrase","adverbial prepositional phrase","appositive phrase","result clause"],"answers":[0],"ru":"Правильный ответ — adjectival prepositional phrase. It describes the noun “fish”.","kz":"Дұрыс жауап — adjectival prepositional phrase. Ол “fish” зат есімін сипаттайды.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"20. “With loud voices” in “We cheered with loud voices” is an:","options":["adverbial prepositional phrase","adjectival prepositional phrase","gerund phrase","infinitive clause"],"answers":[0],"ru":"Правильный ответ — adverbial prepositional phrase. It describes how the action happened.","kz":"Дұрыс жауап — adverbial prepositional phrase. Ол әрекеттің қалай болғанын көрсетеді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"21. A verbal phrase is:","options":["a verb form used as another part of speech","a clause with a finite verb only","a noun renamed by another noun","a preposition plus noun only"],"answers":[0],"ru":"Правильный ответ — a verb form used as another part of speech. It includes participle, gerund and infinitive phrases.","kz":"Дұрыс жауап — a verb form used as another part of speech. Бұған participle, gerund және infinitive phrases кіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"22. A gerund phrase functions as:","options":["a noun","an adjective only","a finite verb","a conjunction"],"answers":[0],"ru":"Правильный ответ — noun. Gerund phrases can be subjects, objects or complements.","kz":"Дұрыс жауап — noun. Gerund phrases subject, object немесе complement бола алады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"23. A participle phrase functions as:","options":["an adjective","a noun","a conjunction","a modal verb"],"answers":[0],"ru":"Правильный ответ — adjective. It modifies a noun/pronoun.","kz":"Дұрыс жауап — adjective. Ол noun/pronoun сөзін анықтайды.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"24. An infinitive phrase can function as:","options":["a noun, adjective or adverb","only a subject","only a preposition","only a finite verb"],"answers":[0],"ru":"Правильный ответ — noun, adjective or adverb. Infinitives have several syntactic functions.","kz":"Дұрыс жауап — noun, adjective or adverb. Infinitive бірнеше syntactic function атқарады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"25. “Wherever you go, I will follow” expresses:","options":["place","time","result","purpose"],"answers":[0],"ru":"Правильный ответ — place. “Wherever” introduces a place clause.","kz":"Дұрыс жауап — place. “Wherever” place clause енгізеді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"26. “She speaks as if she knew everything” expresses:","options":["manner/comparison","result","purpose","time"],"answers":[0],"ru":"Правильный ответ — manner/comparison. “As if” shows the way something appears.","kz":"Дұрыс жауап — manner/comparison. “As if” бір нәрсенің қалай көрінетінін білдіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"27. “He was so tired that he fell asleep” expresses:","options":["result","condition","place","purpose"],"answers":[0],"ru":"Правильный ответ — result. “So...that” shows consequence.","kz":"Дұрыс жауап — result. “So...that” consequence білдіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"28. “Because it was raining, we stayed inside” expresses:","options":["reason","purpose","comparison","place"],"answers":[0],"ru":"Правильный ответ — reason. “Because” gives the cause of the action.","kz":"Дұрыс жауап — reason. “Because” әрекеттің себебін көрсетеді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"29. “Before you leave, lock the door” expresses:","options":["time","concession","result","purpose"],"answers":[0],"ru":"Правильный ответ — time. “Before” introduces a temporal clause.","kz":"Дұрыс жауап — time. “Before” temporal clause енгізеді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"30. “Unless you study, you will fail” expresses:","options":["condition","result","place","purpose"],"answers":[0],"ru":"Правильный ответ — condition. “Unless” means “if not”.","kz":"Дұрыс жауап — condition. “Unless” мағынасы — “if not”.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"31. “Although it was cold, they went out” expresses:","options":["concession","reason","result","purpose"],"answers":[0],"ru":"Правильный ответ — concession. “Although” contrasts two ideas.","kz":"Дұрыс жауап — concession. “Although” екі ойды қарсы қояды.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"32. We went out ___ a pizza.","options":["for","to","so that","in case"],"answers":[0],"ru":"Правильный ответ — “for”. For + noun can express purpose.","kz":"Дұрыс жауап — “for”. For + noun purpose білдіре алады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"33. We whispered in order not ___ anyone.","options":["to disturb","disturbing","disturb","disturbed"],"answers":[0],"ru":"Правильный ответ — “to disturb”. In order not to + infinitive expresses negative purpose.","kz":"Дұрыс жауап — “to disturb”. In order not to + infinitive negative purpose білдіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"34. She saved money so that she ___ travel abroad.","options":["could","can","had","is"],"answers":[0],"ru":"Правильный ответ — “could”. Past purpose uses so that + could/would.","kz":"Дұрыс жауап — “could”. Past purpose үшін so that + could/would қолданылады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"35. I am taking an umbrella in case it ___ later.","options":["rains","rained","will rain","had rained"],"answers":[0],"ru":"Правильный ответ — “rains”. In case + present tense is used for present/future reference.","kz":"Дұрыс жауап — “rains”. In case + present tense present/future reference үшін қолданылады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"36. We took food in case the shops ___ closed.","options":["were","are","will be","have been"],"answers":[0],"ru":"Правильный ответ — “were”. Past reference after in case uses past tense.","kz":"Дұрыс жауап — “were”. Past reference үшін in case кейін past tense қолданылады.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"37. This tool is for ___ metal.","options":["cutting","to cut","cutting metal","cut metal"],"answers":[0],"ru":"Правильный ответ — “cutting”. For + -ing expresses function.","kz":"Дұрыс жауап — “cutting”. For + -ing function білдіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"38. “To get better results, repeat the experiment” uses infinitive to express:","options":["purpose","reason","concession","place"],"answers":[0],"ru":"Правильный ответ — purpose. To + infinitive can express why an action is done.","kz":"Дұрыс жауап — purpose. To + infinitive action не үшін жасалғанын білдіреді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"39. “If necessary, call me” is reduced from a clause of:","options":["condition","time","result","comparison"],"answers":[0],"ru":"Правильный ответ — condition. “If necessary” means “if it is necessary”.","kz":"Дұрыс жауап — condition. “If necessary” мағынасы “if it is necessary”.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"},{"type":"single","q":"40. A subordinate clause is:","options":["a clause that depends on a main clause","a phrase without a verb","a complete independent sentence only","a word combination with no predicate"],"answers":[0],"ru":"Правильный ответ — a clause that depends on a main clause. It cannot stand alone as a full sentence in the same way.","kz":"Дұрыс жауап — a clause that depends on a main clause. Ол main clause-қа тәуелді.","source":"Textbook-based / POFLIC Unit 4 — Phrases, Clauses and Purpose Clauses"}]},"unit5":{"title":"Unit 5 Grammar — Passive Voice, Sequence of Tenses, Reported Speech","questions":[{"type":"single","q":"1. The accounts of this company ___ regularly twice a month.","options":["check","are checked","checked","have checked"],"answers":[1],"ru":"Правильный ответ — “are checked”. Здесь нужен Present Simple Passive, потому что accounts не сами проверяют, а их проверяют регулярно. Формула: am / is / are + V3.","kz":"Дұрыс жауап — “are checked”. Бұл жерде Present Simple Passive керек, себебі accounts өздері тексермейді, оларды біреу үнемі тексереді. Формуласы: am / is / are + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"2. This ___ as soon as possible.","options":["will do","will be done","did","has done"],"answers":[1],"ru":"Правильный ответ — “will be done”. Действие будет выполнено кем-то в будущем, поэтому нужен Future Simple Passive. Формула: will be + V3.","kz":"Дұрыс жауап — “will be done”. Әрекет болашақта біреу арқылы орындалады, сондықтан Future Simple Passive қолданылады. Формуласы: will be + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"3. Little progress ___ in grammar till now.","options":["made","has made","has been made","makes"],"answers":[2],"ru":"Правильный ответ — “has been made”. “Till now” показывает связь с настоящим, а progress был сделан, поэтому нужен Present Perfect Passive. Формула: has / have been + V3.","kz":"Дұрыс жауап — “has been made”. “Till now” қазіргі уақытпен байланысты көрсетеді, ал progress біреу арқылы жасалған, сондықтан Present Perfect Passive керек. Формуласы: has / have been + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"4. By the middle of next year, all grammar points ___.","options":["will deal","will be dealt with","dealt","are dealing"],"answers":[1],"ru":"Правильный ответ — “will be dealt with”. Grammar points сами не рассматривают, их будут рассматривать. Поэтому используется Future Passive: will be + V3.","kz":"Дұрыс жауап — “will be dealt with”. Grammar points өздері қарастырмайды, олар қарастырылады. Сондықтан Future Passive қолданылады: will be + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"5. The fridge ___ during our move.","options":["damaged","was damaged","has damaged","damages"],"answers":[1],"ru":"Правильный ответ — “was damaged”. Холодильник был повреждён во время переезда. Это Past Simple Passive: was / were + V3.","kz":"Дұрыс жауап — “was damaged”. Тоңазытқыш көшу кезінде зақымданған. Бұл Past Simple Passive: was / were + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"6. The goods ___ back to the manufacturer right now.","options":["are sending","are being sent","sent","have sent"],"answers":[1],"ru":"Правильный ответ — “are being sent”. “Right now” показывает процесс сейчас, а goods отправляются кем-то. Поэтому Present Continuous Passive: am / is / are being + V3.","kz":"Дұрыс жауап — “are being sent”. “Right now” әрекеттің дәл қазір болып жатқанын көрсетеді, ал goods біреу арқылы жіберіліп жатыр. Сондықтан Present Continuous Passive: am / is / are being + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"7. Ted ___ a scholarship recently.","options":["awarded","has awarded","has been awarded","awards"],"answers":[2],"ru":"Правильный ответ — “has been awarded”. Ted получил стипендию, то есть он был награждён. “Recently” часто требует Present Perfect, а значение пассивное.","kz":"Дұрыс жауап — “has been awarded”. Ted стипендия алды, яғни ол марапатталды. “Recently” Present Perfect-пен жиі қолданылады, ал мағына пассив.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"8. Some trees ___ by the gardener.","options":["planted","have planted","have been planted","planting"],"answers":[2],"ru":"Правильный ответ — “have been planted”. Деревья были посажены садовником. Объект действия — trees, поэтому нужен passive.","kz":"Дұрыс жауап — “have been planted”. Ағаштарды бағбан отырғызған. Әрекет объектісі — trees, сондықтан passive form керек.","source":"Textbook-based / POFLIC Unit 5.1 — Active to Passive"},{"type":"single","q":"9. The hotel ___ by a famous designer.","options":["will redecorate","will be redecorated","redecorates","has redecorated"],"answers":[1],"ru":"Правильный ответ — “will be redecorated”. Отель будет обновлён дизайнером. Это Future Passive: will be + V3.","kz":"Дұрыс жауап — “will be redecorated”. Қонақүйді атақты дизайнер қайта безендіреді. Бұл Future Passive: will be + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Active to Passive"},{"type":"single","q":"10. Italian ___ in Italy.","options":["speaks","is spoken","spoke","has spoken"],"answers":[1],"ru":"Правильный ответ — “is spoken”. Язык не говорит сам, на нём говорят люди. Поэтому используется Present Simple Passive: is spoken.","kz":"Дұрыс жауап — “is spoken”. Тіл өзі сөйлемейді, адамдар сол тілде сөйлейді. Сондықтан Present Simple Passive қолданылады: is spoken.","source":"Textbook-based / POFLIC Unit 5.1 — Passive Voice"},{"type":"single","q":"11. He ran away when he ___ me.","options":["sees","saw","had seen","will see"],"answers":[1],"ru":"Правильный ответ — “saw”. Основное действие в прошлом: “ran away”, поэтому в придаточной части также используется Past Simple.","kz":"Дұрыс жауап — “saw”. Негізгі әрекет өткен шақта: “ran away”, сондықтан бағыныңқы бөлікте де Past Simple қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"},{"type":"single","q":"12. I never understood why he ___ like this.","options":["behaves","behaved","has behaved","will behave"],"answers":[1],"ru":"Правильный ответ — “behaved”. Главный глагол “understood” стоит в прошлом, поэтому действует согласование времён.","kz":"Дұрыс жауап — “behaved”. Негізгі етістік “understood” өткен шақта тұр, сондықтан шақтардың сәйкестігі сақталады.","source":"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"},{"type":"single","q":"13. His mother says that he ___ much better now.","options":["is","was","had been","will be"],"answers":[0],"ru":"Правильный ответ — “is”. Главный глагол “says” стоит в настоящем времени, поэтому в придаточном предложении можно использовать Present Simple.","kz":"Дұрыс жауап — “is”. Негізгі етістік “says” қазіргі шақта тұр, сондықтан бағыныңқы сөйлемде Present Simple қолдануға болады.","source":"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses"},{"type":"single","q":"14. He walked as if he ___ lame.","options":["is","was / were","has been","will be"],"answers":[1],"ru":"Правильный ответ — “was / were”. После “as if” часто используется unreal past form, когда ситуация выглядит нереальной или условной.","kz":"Дұрыс жауап — “was / were”. “As if” құрылымынан кейін жағдай шындыққа сай емес немесе шартты болып көрінсе, unreal past form қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Sequence of Tenses / Unreal Comparison"},{"type":"single","q":"15. Julie said, “I’d go and see a doctor if I were you.” Julie ___ me to see a doctor.","options":["advised","said","told","ordered"],"answers":[0],"ru":"Правильный ответ — “advised”. Фраза “If I were you…” обычно выражает совет, поэтому reporting verb — “advised”.","kz":"Дұрыс жауап — “advised”. “If I were you…” тіркесі әдетте кеңес білдіреді, сондықтан reporting verb ретінде “advised” қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"16. “Can you help me with this box?” John ___ me to help him with the box.","options":["asked","said","warned","suggested"],"answers":[0],"ru":"Правильный ответ — “asked”. Это просьба, поэтому в reported speech используется “asked someone to do something”.","kz":"Дұрыс жауап — “asked”. Бұл өтініш, сондықтан reported speech ішінде “asked someone to do something” құрылымы қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"17. “Shut up now!” The headmaster ___ Mr. Jenkins to shut up.","options":["ordered","suggested","offered","advised"],"answers":[0],"ru":"Правильный ответ — “ordered”. Это приказ, поэтому используется reporting verb “ordered”.","kz":"Дұрыс жауап — “ordered”. Бұл бұйрық, сондықтан reporting verb ретінде “ordered” қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"18. “That road is very dangerous.” His mother ___ him that the road was dangerous.","options":["warned","offered","suggested","asked"],"answers":[0],"ru":"Правильный ответ — “warned”. Мать предупреждает об опасности, поэтому правильный reporting verb — “warned”.","kz":"Дұрыс жауап — “warned”. Анасы қауіп туралы ескертіп тұр, сондықтан дұрыс reporting verb — “warned”.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"19. “Why don’t we go and see that new film?” Bill ___ going to see the new film.","options":["suggested","warned","ordered","told"],"answers":[0],"ru":"Правильный ответ — “suggested”. “Why don’t we…” выражает предложение. После “suggest” часто используется gerund: suggested going.","kz":"Дұрыс жауап — “suggested”. “Why don’t we…” ұсыныс білдіреді. “Suggest” етістігінен кейін жиі gerund қолданылады: suggested going.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"20. “I can look after the children tomorrow night.” Jane ___ to look after the children the following day.","options":["offered","ordered","warned","asked"],"answers":[0],"ru":"Правильный ответ — “offered”. Jane предлагает помощь, поэтому используется reporting verb “offered”.","kz":"Дұрыс жауап — “offered”. Jane көмектесуді ұсынып тұр, сондықтан reporting verb ретінде “offered” қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Reported Speech / Reporting Verbs"},{"type":"single","q":"21. Mr. Ertas ___ last Monday.","options":["was killed","killed","has killed","will kill"],"answers":[0],"ru":"Правильный ответ — “was killed”. The subject received the action in the past.","kz":"Дұрыс жауап — “was killed”. Subject өткен шақта action қабылдаған.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"22. We ___ well in advance about the conference.","options":["were not informed","did not inform","had not informed","are not informing"],"answers":[0],"ru":"Правильный ответ — “were not informed”. The people failed to receive information, so passive is needed.","kz":"Дұрыс жауап — “were not informed”. Адамдарға ақпарат берілмеген, сондықтан passive керек.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"23. The tyres are dirty. They ___ first.","options":["must be cleaned","must clean","cleaned","have cleaned"],"answers":[0],"ru":"Правильный ответ — “must be cleaned”. Modal passive: modal + be + V3.","kz":"Дұрыс жауап — “must be cleaned”. Modal passive: modal + be + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"24. Sam is claimed ___ the accounts.","options":["to have falsified","to falsify","falsifying","falsified"],"answers":[0],"ru":"Правильный ответ — “to have falsified”. Perfect infinitive refers to an earlier alleged action.","kz":"Дұрыс жауап — “to have falsified”. Perfect infinitive earlier alleged action білдіреді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"25. Aisha was afraid that someone ___ her there.","options":["would see","will see","sees","has seen"],"answers":[0],"ru":"Правильный ответ — “would see”. Sequence of tenses after past context often shifts will to would.","kz":"Дұрыс жауап — “would see”. Past context ішінде will көбіне would болып өзгереді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"26. The movie ___ by the time Bill remembers to turn on the TV.","options":["will have finished","finished","has finished","will finish only"],"answers":[0],"ru":"Правильный ответ — “will have finished”. By the time + future reference can require Future Perfect.","kz":"Дұрыс жауап — “will have finished”. By the time + future reference Future Perfect талап етуі мүмкін.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"27. The rival team ___ easily, but we were just unlucky.","options":["could have been beaten","could beat","was beating","has beaten"],"answers":[0],"ru":"Правильный ответ — “could have been beaten”. Modal perfect passive shows possible past result.","kz":"Дұрыс жауап — “could have been beaten”. Modal perfect passive possible past result білдіреді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"28. I ___ the diet my doctor prescribed, or I will weigh more.","options":["must follow","must be followed","was followed","am followed"],"answers":[0],"ru":"Правильный ответ — “must follow”. Here the subject “I” performs the action, so active modal is needed.","kz":"Дұрыс жауап — “must follow”. Мұнда “I” action орындайды, сондықтан active modal керек.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"29. Some advice ___ to you by Doctor Brown.","options":["will be given","will give","gave","has given"],"answers":[0],"ru":"Правильный ответ — “will be given”. Active “Doctor Brown will give advice” becomes passive.","kz":"Дұрыс жауап — “will be given”. Active сөйлем passive-ке айналады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"30. “E.T.” ___ by Steven Spielberg.","options":["was directed","directed","has directed","will direct"],"answers":[0],"ru":"Правильный ответ — “was directed”. Film is the object of the action, so passive is used.","kz":"Дұрыс жауап — “was directed”. Film action object болғандықтан passive қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"31. The crystal vase ___ by someone.","options":["has been broken","has broken","broke","will break"],"answers":[0],"ru":"Правильный ответ — “has been broken”. Present Perfect Passive: has been + V3.","kz":"Дұрыс жауап — “has been broken”. Present Perfect Passive: has been + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"32. Penicillin ___ by Fleming.","options":["was discovered","discovered","has discovered","will discover"],"answers":[0],"ru":"Правильный ответ — “was discovered”. The discovery happened in the past and the subject receives the action.","kz":"Дұрыс жауап — “was discovered”. Discovery past-та болды және subject action қабылдайды.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"33. The product ___ on television.","options":["will be advertised","will advertise","advertised","has advertised"],"answers":[0],"ru":"Правильный ответ — “will be advertised”. Future passive: will be + V3.","kz":"Дұрыс жауап — “will be advertised”. Future passive: will be + V3.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"34. That fence ___ at the moment.","options":["is being repaired","is repairing","repairs","has repaired"],"answers":[0],"ru":"Правильный ответ — “is being repaired”. Present Continuous Passive describes an action happening now.","kz":"Дұрыс жауап — “is being repaired”. Present Continuous Passive қазір болып жатқан action-ды білдіреді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"35. My assignment ___ already.","options":["has been finished","has finished","finished","will finish"],"answers":[0],"ru":"Правильный ответ — “has been finished”. The assignment is completed by someone, so passive is possible.","kz":"Дұрыс жауап — “has been finished”. Assignment біреу арқылы аяқталған, сондықтан passive possible.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"36. Let me see whoever he ___ be.","options":["may","might","will","had"],"answers":[0],"ru":"Правильный ответ — “may”. The modal meaning is preserved here.","kz":"Дұрыс жауап — “may”. Бұл жерде modal meaning сақталады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"37. I am so tired that I ___ not walk now.","options":["can","could","will","had"],"answers":[0],"ru":"Правильный ответ — “can”. Present situation with “now” requires can.","kz":"Дұрыс жауап — “can”. “Now” present situation көрсетеді, сондықтан can керек.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"38. He walked fast lest he ___ miss the bus.","options":["should","shall","will","had"],"answers":[0],"ru":"Правильный ответ — “should”. After lest, should is the standard form.","kz":"Дұрыс жауап — “should”. Lest кейін standard form — should.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"39. Strong though he is, he ___ not so bold.","options":["is","was","has been","will be"],"answers":[0],"ru":"Правильный ответ — “is”. The statement is present/general.","kz":"Дұрыс жауап — “is”. Statement present/general meaning береді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"40. I shall leave the place only when you ___ back.","options":["come","will come","came","had come"],"answers":[0],"ru":"Правильный ответ — “come”. After when in future time clauses, use Present Simple.","kz":"Дұрыс жауап — “come”. Future time clauses ішінде when кейін Present Simple қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"41. The stars will shine as long as the world ___.","options":["lasts","will last","lasted","had lasted"],"answers":[0],"ru":"Правильный ответ — “lasts”. Time clause after as long as uses Present Simple.","kz":"Дұрыс жауап — “lasts”. As long as кейін Present Simple қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"42. We had hardly reached the office when the boss ___ for Delhi.","options":["left","had left","leaves","will leave"],"answers":[0],"ru":"Правильный ответ — “left”. After hardly reached...when, the next past action is Past Simple.","kz":"Дұрыс жауап — “left”. Hardly reached...when құрылымында келесі past action Past Simple болады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"43. A man will reap as he ___.","options":["sows","will sow","sowed","had sown"],"answers":[0],"ru":"Правильный ответ — “sows”. General truth uses Present Simple.","kz":"Дұрыс жауап — “sows”. General truth үшін Present Simple қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"44. Virtue ennobles but vice ___.","options":["degrades","will degrade","degraded","has degraded"],"answers":[0],"ru":"Правильный ответ — “degrades”. Parallel general statement uses Present Simple.","kz":"Дұрыс жауап — “degrades”. Parallel general statement Present Simple қолданады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"45. You must follow me whether you ___ it or not.","options":["like","will like","liked","had liked"],"answers":[0],"ru":"Правильный ответ — “like”. After whether in this structure, Present Simple is used.","kz":"Дұрыс жауап — “like”. Бұл whether құрылымында Present Simple қолданылады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"46. The journalist ___ that Liverpool had won the match the previous night.","options":["said","asked","warned","offered"],"answers":[0],"ru":"Правильный ответ — “said”. This reporting verb introduces a statement.","kz":"Дұрыс жауап — “said”. Бұл reporting verb statement енгізеді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"47. The teacher ___ us that the lesson started at six.","options":["told","said","suggested","offered"],"answers":[0],"ru":"Правильный ответ — “told”. Told is used with an object: told us.","kz":"Дұрыс жауап — “told”. Told object-пен қолданылады: told us.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"48. “Don’t touch the wire,” he said. He ___ me not to touch the wire.","options":["warned","offered","suggested","said"],"answers":[0],"ru":"Правильный ответ — “warned”. The sentence gives a warning about danger.","kz":"Дұрыс жауап — “warned”. Бұл сөйлем danger туралы warning береді.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"49. “I’ll carry your bag,” she said. She ___ to carry my bag.","options":["offered","ordered","warned","asked"],"answers":[0],"ru":"Правильный ответ — “offered”. The speaker volunteers to help.","kz":"Дұрыс жауап — “offered”. Speaker help ұсынады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"50. “Please open the window,” he said. He ___ me to open the window.","options":["asked","said","suggested","warned"],"answers":[0],"ru":"Правильный ответ — “asked”. Request in reported speech uses ask someone to do something.","kz":"Дұрыс жауап — “asked”. Request reported speech ішінде ask someone to do something арқылы беріледі.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"51. “Let’s start early,” she said. She ___ starting early.","options":["suggested","ordered","warned","told"],"answers":[0],"ru":"Правильный ответ — “suggested”. Suggest can be followed by gerund.","kz":"Дұрыс жауап — “suggested”. Suggest кейін gerund қолданыла алады.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"},{"type":"single","q":"52. “Be quiet,” the teacher said. The teacher ___ the students to be quiet.","options":["ordered","offered","suggested","warned"],"answers":[0],"ru":"Правильный ответ — “ordered”. This is an imperative command.","kz":"Дұрыс жауап — “ordered”. Бұл imperative command.","source":"Textbook-based / POFLIC Unit 5.1 — Active/Passive, Sequence of Tenses, Reported Speech"}]}};
 function letter(i){
   return String.fromCharCode(65+i);
 }
@@ -1856,7 +581,7 @@ function getSelected(unitKey,qi){
 
 function answerText(q,arr){
   if(!arr || arr.length === 0){
-    return "No answer selected";
+    return langText("Жауап таңдалмаған", "Ответ не выбран");
   }
 
   return arr
@@ -1887,25 +612,25 @@ function checkUnit(unitKey){
         <div><b>${qi + 1}. ${q.q.replace(/^\d+\.\s*/, "")}</b></div>
 
         <div class="${isCorrect ? "correct-text" : "wrong-text"}">
-          ${isCorrect ? "Correct" : "Wrong"}
+          ${isCorrect ? langText("Дұрыс","Правильно") : langText("Қате","Неправильно")}
         </div>
 
         <div class="explain">
-          <b>Your answer:</b><br>
+          <b>${langText("Сіздің жауабыңыз:", "Ваш ответ:")}</b><br>
           ${answerText(q,selected)}
         </div>
 
         <div class="explain">
-          <b>Correct answer:</b><br>
+          <b>${langText("Дұрыс жауап:", "Правильный ответ:")}</b><br>
           ${answerText(q,correct)}
         </div>
 
         <div class="explain">
           <b>Explanation RU:</b> ${q.ru}<br>
-          <b>Explanation KZ:</b> ${q.kz}
+          <b>Explanation KZ:</b> ${selectedExplanation(q)}
         </div>
 
-        <span class="source">Source: ${q.source}</span>
+        <span class="source">${langText("Дереккөз:", "Источник:")} ${q.source}</span>
       </div>
     `;
   });
